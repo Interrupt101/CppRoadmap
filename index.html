@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,9 +21,7 @@
   }
 
   *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-
   html { scroll-behavior: smooth; }
-
   body {
     background: var(--bg);
     color: var(--text);
@@ -32,8 +30,8 @@
     min-height: 100vh;
     overflow-x: hidden;
   }
+  body[dir="rtl"] { font-family: 'Segoe UI', Tahoma, 'DM Sans', sans-serif; }
 
-  /* BG grid */
   body::before {
     content: '';
     position: fixed;
@@ -48,9 +46,44 @@
 
   .page { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 64px 24px 100px; }
 
+  /* Language Switcher */
+  .lang-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 200;
+    display: flex;
+    gap: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 5px;
+  }
+  body[dir="rtl"] .lang-switcher { right: auto; left: 20px; }
+
+  .lang-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: var(--muted);
+    font-family: 'Fira Code', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    text-transform: uppercase;
+  }
+  .lang-btn:hover { color: var(--text); border-color: var(--border); }
+  .lang-btn.active {
+    background: linear-gradient(135deg, rgba(56,189,248,0.15), rgba(232,121,249,0.15));
+    border-color: rgba(56,189,248,0.3);
+    color: #38bdf8;
+  }
+
   /* Header */
   header { text-align: center; margin-bottom: 72px; }
-
   .pretitle {
     font-family: 'Fira Code', monospace;
     font-size: 0.75rem;
@@ -59,7 +92,6 @@
     text-transform: uppercase;
     margin-bottom: 12px;
   }
-
   h1 {
     font-size: clamp(2.4rem, 6vw, 4rem);
     font-weight: 900;
@@ -71,66 +103,35 @@
     background-clip: text;
     margin-bottom: 12px;
   }
+  .tagline { color: var(--muted); font-size: 1rem; font-weight: 300; }
 
-  .tagline {
-    color: var(--muted);
-    font-size: 1rem;
-    font-weight: 300;
-  }
+  a { color: #4CAF50; text-decoration: none; }
+  a:hover { color: #2E7D32; }
+  a:visited { color: #1B5E20; }
 
   /* Stage */
-  .stage {
-    margin-bottom: 56px;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: appear 0.5s ease forwards;
-  }
+  .stage { margin-bottom: 56px; opacity: 0; transform: translateY(20px); animation: appear 0.5s ease forwards; }
   .stage:nth-child(1) { animation-delay: 0.05s; }
   .stage:nth-child(2) { animation-delay: 0.15s; }
   .stage:nth-child(3) { animation-delay: 0.25s; }
   .stage:nth-child(4) { animation-delay: 0.35s; }
   .stage:nth-child(5) { animation-delay: 0.45s; }
+  @keyframes appear { to { opacity:1; transform: translateY(0); } }
 
-  @keyframes appear {
-    to { opacity:1; transform: translateY(0); }
-  }
-
-  .stage-header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 20px;
-    padding-bottom: 16px;
-  }
-
+  .stage-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; padding-bottom: 16px; }
   .stage-num {
     font-family: 'Fira Code', monospace;
-    font-size: 0.7rem;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 4px;
-    letter-spacing: 0.08em;
-    flex-shrink: 0;
+    font-size: 0.7rem; font-weight: 600;
+    padding: 4px 10px; border-radius: 4px;
+    letter-spacing: 0.08em; flex-shrink: 0;
   }
-
-  .stage-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-  }
-
+  .stage-title { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; }
   .stage-goal {
-    font-size: 0.82rem;
-    color: var(--muted);
-    font-weight: 300;
-    margin-left: auto;
-    text-align: right;
-    max-width: 260px;
-    line-height: 1.4;
-    font-style: italic;
+    font-size: 0.82rem; color: var(--muted); font-weight: 300;
+    margin-inline-start: auto; text-align: end;
+    max-width: 260px; line-height: 1.4; font-style: italic;
   }
 
-  /* S1 colors */
   .s1 .stage-num { background: var(--s1b); color: var(--s1); }
   .s1 .stage-header { border-bottom: 1px solid rgba(56,189,248,0.2); }
   .s1 .stage-title { color: var(--s1); }
@@ -147,35 +148,16 @@
   .s5 .stage-header { border-bottom: 1px solid rgba(232,121,249,0.2); }
   .s5 .stage-title { color: var(--s5); }
 
-  /* Topics grid */
-  .topics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 10px;
-  }
+  .topics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
 
   .topic-btn {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 16px;
-    text-align: left;
-    cursor: pointer;
-    transition: all 0.18s ease;
-    position: relative;
-    overflow: hidden;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px;
+    text-align: start; cursor: pointer;
+    transition: all 0.18s ease; position: relative; overflow: hidden;
   }
-
-  .topic-btn::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 0.18s;
-  }
-
+  .topic-btn::after { content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity 0.18s; }
   .topic-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
-
   .s1 .topic-btn:hover { border-color: var(--s1); }
   .s1 .topic-btn:hover::after { background: var(--s1g); opacity: 1; }
   .s2 .topic-btn:hover { border-color: var(--s2); }
@@ -188,17 +170,11 @@
   .s5 .topic-btn:hover::after { background: var(--s5g); opacity: 1; }
 
   .topic-btn-inner { position: relative; z-index: 1; }
-
   .topic-tag {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 5px;
-    display: block;
-    opacity: 0.7;
+    font-family: 'Fira Code', monospace; font-size: 0.62rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 5px; display: block; opacity: 0.7;
   }
-
   .s1 .topic-tag { color: var(--s1); }
   .s2 .topic-tag { color: var(--s2); }
   .s3 .topic-tag { color: var(--s3); }
@@ -206,248 +182,141 @@
   .s5 .topic-tag { color: var(--s5); }
 
   .topic-name {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text);
-    line-height: 1.3;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 8px;
+    font-size: 0.9rem; font-weight: 500; color: var(--text);
+    line-height: 1.3; display: flex; justify-content: space-between;
+    align-items: flex-start; gap: 8px;
   }
+  .topic-arrow { font-size: 0.75rem; opacity: 0.35; flex-shrink: 0; margin-top: 2px; }
+  body[dir="rtl"] .topic-arrow { transform: scaleX(-1); }
 
-  .topic-arrow {
-    font-size: 0.75rem;
-    opacity: 0.35;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-
-  /* Connector arrow between stages */
-  .connector {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 32px;
-    margin: -28px 0 -12px;
-    position: relative;
-    z-index: 2;
-  }
-  .connector::before {
-    content: '';
-    position: absolute;
-    width: 1px;
-    height: 100%;
-    background: var(--border);
-  }
-  .connector span {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 50%;
-    width: 24px; height: 24px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.65rem;
-    color: var(--muted);
-    position: relative;
-    z-index: 1;
-  }
-
-  /* ========= MODAL ========= */
+  /* Modal */
   .overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.72);
-    backdrop-filter: blur(6px);
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.22s;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.72); backdrop-filter: blur(6px);
+    z-index: 100; display: flex; align-items: center; justify-content: center;
+    padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.22s;
   }
-
-  .overlay.open {
-    opacity: 1;
-    pointer-events: all;
-  }
-
+  .overlay.open { opacity: 1; pointer-events: all; }
   .modal {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    max-width: 580px;
-    width: 100%;
-    max-height: 80vh;
-    overflow-y: auto;
-    transform: scale(0.94) translateY(12px);
-    transition: transform 0.22s;
-    box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; max-width: 580px; width: 100%; max-height: 80vh;
+    overflow-y: auto; transform: scale(0.94) translateY(12px);
+    transition: transform 0.22s; box-shadow: 0 32px 80px rgba(0,0,0,0.6);
   }
-
-  .overlay.open .modal {
-    transform: scale(1) translateY(0);
-  }
-
+  .overlay.open .modal { transform: scale(1) translateY(0); }
   .modal-top {
-    padding: 24px 24px 20px;
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    background: var(--card);
-    border-radius: 16px 16px 0 0;
+    padding: 24px 24px 20px; border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; background: var(--card); border-radius: 16px 16px 0 0;
   }
-
   .modal-stage-tag {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-    display: block;
+    font-family: 'Fira Code', monospace; font-size: 0.65rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 6px; display: block;
   }
-
-  .modal-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    margin-bottom: 0;
-  }
-
+  .modal-title { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; }
   .modal-close {
-    position: absolute;
-    top: 20px; right: 20px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--muted);
-    cursor: pointer;
-    width: 32px; height: 32px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1rem;
-    transition: color 0.15s, border-color 0.15s;
+    position: absolute; top: 20px; inset-inline-end: 20px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--muted); cursor: pointer;
+    width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; transition: color 0.15s, border-color 0.15s;
   }
   .modal-close:hover { color: var(--text); border-color: var(--text); }
-
   .modal-body { padding: 24px; }
-
-  .modal-intro {
-    font-size: 0.95rem;
-    color: var(--muted);
-    margin-bottom: 20px;
-    line-height: 1.65;
-  }
-
+  .modal-intro { font-size: 0.95rem; color: var(--muted); margin-bottom: 20px; line-height: 1.65; }
   .modal-points { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-
   .modal-points li {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    background: var(--surface);
-    border-radius: 8px;
-    padding: 12px 14px;
-    font-size: 0.875rem;
-    line-height: 1.5;
+    display: flex; gap: 12px; align-items: flex-start;
+    background: var(--surface); border-radius: 8px;
+    padding: 12px 14px; font-size: 0.875rem; line-height: 1.5;
     border: 1px solid var(--border);
   }
-
   .modal-points li .bullet {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.7rem;
-    font-weight: 600;
-    flex-shrink: 0;
-    margin-top: 2px;
-    opacity: 0.8;
+    font-family: 'Fira Code', monospace; font-size: 0.7rem;
+    font-weight: 600; flex-shrink: 0; margin-top: 2px; opacity: 0.8;
+  }
+  body[dir="rtl"] .modal-points li .bullet { transform: scaleX(-1); display: inline-block; }
+  .modal-points code {
+    font-family: 'Fira Code', monospace; font-size: 0.8rem;
+    background: rgba(255,255,255,0.07); padding: 1px 5px; border-radius: 4px;
   }
 
-  .modal-points code {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.8rem;
-    background: rgba(255,255,255,0.07);
-    padding: 1px 5px;
-    border-radius: 4px;
-  }
+  /* RTL specific */
+  body[dir="rtl"] .stage-header { flex-direction: row; }
+  body[dir="rtl"] .stage-goal { text-align: start; }
 
   @media(max-width:580px) {
     .stage-goal { display: none; }
     .topics-grid { grid-template-columns: 1fr 1fr; }
+    .lang-switcher { top: 12px; right: 12px; }
+    body[dir="rtl"] .lang-switcher { right: auto; left: 12px; }
   }
-  @media(max-width:400px) {
-    .topics-grid { grid-template-columns: 1fr; }
-  }
+  @media(max-width:400px) { .topics-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 
+<!-- Language Switcher -->
+<div class="lang-switcher">
+  <button class="lang-btn active" onclick="setLang('en')">EN</button>
+  <button class="lang-btn" onclick="setLang('fr')">FR</button>
+  <button class="lang-btn" onclick="setLang('ar')">AR</button>
+</div>
+
 <div class="page">
   <header>
-    <p class="pretitle">complete c++ learning path</p>
+    <p class="pretitle" id="pretitle"></p>
     <h1>Interrupt101 C++ Roadmap</h1>
-    <p class="tagline">Click any topic to get a quick explanation</p>
+    <p class="tagline" id="tagline"></p>
   </header>
 
-  <!-- STAGE 1 -->
   <div class="stage s1">
     <div class="stage-header">
-      <span class="stage-num">STAGE 01</span>
-      <span class="stage-title">Beginner — Foundations</span>
-      <span class="stage-goal">Understand basic syntax, data types, and programming logic</span>
+      <span class="stage-num" id="s1-num"></span>
+      <span class="stage-title" id="s1-title"></span>
+      <span class="stage-goal" id="s1-goal"></span>
     </div>
     <div class="topics-grid" id="s1-topics"></div>
   </div>
 
-  <div class="connector"><span>↓</span></div>
-
-  <!-- STAGE 2 -->
   <div class="stage s2">
     <div class="stage-header">
-      <span class="stage-num">STAGE 02</span>
-      <span class="stage-title">Intermediate — Core Concepts</span>
-      <span class="stage-goal">Structure programs and use standard libraries effectively</span>
+      <span class="stage-num" id="s2-num"></span>
+      <span class="stage-title" id="s2-title"></span>
+      <span class="stage-goal" id="s2-goal"></span>
     </div>
     <div class="topics-grid" id="s2-topics"></div>
   </div>
 
-  <div class="connector"><span>↓</span></div>
-
-  <!-- STAGE 3 -->
   <div class="stage s3">
     <div class="stage-header">
-      <span class="stage-num">STAGE 03</span>
-      <span class="stage-title">Advanced — Object-Oriented Programming</span>
-      <span class="stage-goal">Model real-world problems using OOP principles</span>
+      <span class="stage-num" id="s3-num"></span>
+      <span class="stage-title" id="s3-title"></span>
+      <span class="stage-goal" id="s3-goal"></span>
     </div>
     <div class="topics-grid" id="s3-topics"></div>
   </div>
 
-  <div class="connector"><span>↓</span></div>
-
-  <!-- STAGE 4 -->
   <div class="stage s4">
     <div class="stage-header">
-      <span class="stage-num">STAGE 04</span>
-      <span class="stage-title">Expert — Modern C++</span>
-      <span class="stage-goal">Master modern features and advanced techniques</span>
+      <span class="stage-num" id="s4-num"></span>
+      <span class="stage-title" id="s4-title"></span>
+      <span class="stage-goal" id="s4-goal"></span>
     </div>
     <div class="topics-grid" id="s4-topics"></div>
   </div>
 
-  <div class="connector"><span>↓</span></div>
-
-  <!-- STAGE 5 -->
   <div class="stage s5">
     <div class="stage-header">
-      <span class="stage-num">STAGE 05</span>
-      <span class="stage-title">Expert — Competitive & Systems</span>
-      <span class="stage-goal">Use C++ for high-performance, professional applications</span>
+      <span class="stage-num" id="s5-num"></span>
+      <span class="stage-title" id="s5-title"></span>
+      <span class="stage-goal" id="s5-goal"></span>
     </div>
     <div class="topics-grid" id="s5-topics"></div>
   </div>
 </div>
 
-<!-- MODAL -->
+<!-- Modal -->
 <div class="overlay" id="overlay" onclick="closeModal(event)">
   <div class="modal" id="modal">
     <div class="modal-top">
@@ -463,371 +332,263 @@
 </div>
 
 <script>
-const TOPICS = {
-  s1: [
-    {
-      tag: "env",
-      name: "C++ Setup",
-      intro: "Before writing any C++ code, you need a compiler and editor. This step ensures you can write, compile, and execute programs on your machine.",
-      points: [
-        "Install an IDE: <code>VS Code</code> (free, extensible), <code>CLion</code> (smart, paid), or <code>Visual Studio</code> (Windows powerhouse).",
-        "Install a compiler: <code>GCC</code> on Linux/macOS, <code>MinGW</code> on Windows. The compiler turns your <code>.cpp</code> source file into an executable.",
-        "Compile from terminal: <code>g++ main.cpp -o main</code> then run with <code>./main</code> — understanding this flow demystifies what IDEs do automatically."
-      ]
-    },
-    {
-      tag: "core",
-      name: "Basics of C++",
-      intro: "The absolute building blocks of the language. You'll write your first program, store data, interact with the user, and perform calculations.",
-      points: [
-        "<code>Hello World</code>: <code>#include &lt;iostream&gt;</code> and <code>std::cout &lt;&lt; \"Hello World\";</code> — your first working program.",
-        "Variables & types: <code>int</code> (whole numbers), <code>float</code>/<code>double</code> (decimals), <code>char</code> (single character), <code>bool</code> (true/false). Each has a fixed size in memory.",
-        "I/O: <code>cout</code> prints to screen, <code>cin</code> reads from keyboard. Operators like <code>+</code>, <code>%</code>, <code>++</code>, <code>+=</code> let you compute and mutate values."
-      ]
-    },
-    {
-      tag: "flow",
-      name: "Control Structures",
-      intro: "Programs need to make decisions and repeat actions. Control structures are the logic backbone of every non-trivial program.",
-      points: [
-        "Conditionals: <code>if / else if / else</code> branches code based on boolean conditions. <code>switch</code> is cleaner when testing one variable against many fixed values.",
-        "Loops: <code>for</code> (known count), <code>while</code> (condition-based), <code>do-while</code> (always runs at least once). Choose based on what you know at loop start.",
-        "<code>break</code> exits a loop immediately; <code>continue</code> skips the rest of the current iteration and goes to the next. Both help avoid deeply nested logic."
-      ]
-    },
-    {
-      tag: "func",
-      name: "Functions",
-      intro: "Functions let you package reusable logic, name it, and call it from anywhere. They are the primary tool for reducing repetition and organizing code.",
-      points: [
-        "Declaration vs definition: a declaration (prototype) tells the compiler a function exists; the definition provides its body. Needed when calling a function before defining it.",
-        "Parameters pass data into a function; the <code>return</code> keyword sends a result back. Use <code>void</code> when nothing is returned.",
-        "Scope: variables declared inside a function are local — they don't exist outside. Global variables live for the entire program but should be used sparingly."
-      ]
-    },
-    {
-      tag: "str",
-      name: "Basic I/O & Strings",
-      intro: "Text is one of the most common data types. C++ provides the <code>string</code> class for safe, easy string handling far beyond raw character arrays.",
-      points: [
-        "<code>std::string</code> is the go-to for text. It automatically manages memory, unlike C-style <code>char[]</code> arrays.",
-        "<code>cin</code> stops at whitespace — use <code>getline(cin, s)</code> to read a full line including spaces into string <code>s</code>.",
-        "Key operations: <code>s.length()</code>, <code>s1 + s2</code> (concatenation), <code>s1 == s2</code> (comparison), <code>s.substr(pos, len)</code> for slicing."
-      ]
+// ─────────────────────────── TRANSLATIONS ───────────────────────────
+
+const I18N = {
+  en: {
+    pretitle: "complete c++ learning path",
+    tagline: "Click any topic to get a quick explanation",
+    stages: [
+      { num: "STAGE 01", title: "Beginner — Foundations", goal: "Understand basic syntax, data types, and programming logic" },
+      { num: "STAGE 02", title: "Intermediate — Core Concepts", goal: "Structure programs and use standard libraries effectively" },
+      { num: "STAGE 03", title: "Advanced — Object-Oriented Programming", goal: "Model real-world problems using OOP principles" },
+      { num: "STAGE 04", title: "Expert — Modern C++", goal: "Master modern features and advanced techniques" },
+      { num: "STAGE 05", title: "Expert — Competitive & Systems", goal: "Use C++ for high-performance, professional applications" },
+    ],
+    stageNames: ["Stage 1 · Foundations","Stage 2 · Core Concepts","Stage 3 · OOP","Stage 4 · Modern C++","Stage 5 · Systems"],
+    topics: {
+      s1: [
+        { tag:"env", name:"C++ Setup", intro:"Before writing any C++ code, you need a compiler and editor. This step ensures you can write, compile, and execute programs on your machine.", points:["Install an IDE: <a href='https://code.visualstudio.com/' target='_blank'>VS Code</a> (free, extensible), or <a href='https://visualstudio.microsoft.com/' target='_blank'>Visual Studio</a> (Windows powerhouse).","Install a compiler: <a href='https://gcc.gnu.org/' target='_blank'>GCC</a> on Linux/macOS, <a href='https://www.mingw-w64.org/' target='_blank'>MinGW-w64</a> on Windows. The compiler turns your <code>.cpp</code> source file into an executable.","Compile from terminal: <code>g++ main.cpp -o main</code> then run with <code>./main</code> — understanding this flow demystifies what IDEs do automatically."] },
+        { tag:"core", name:"Basics of C++", intro:"The absolute building blocks of the language. You'll write your first program, store data, interact with the user, and perform calculations.", points:["<code>Hello World</code>: <code>#include &lt;iostream&gt;</code> and <code>std::cout &lt;&lt; \"Hello World\";</code> — your first working program.","Variables & types: <code>int</code> (whole numbers), <code>float</code>/<code>double</code> (decimals), <code>char</code> (single character), <code>bool</code> (true/false). Each has a fixed size in memory.","I/O: <code>cout</code> prints to screen, <code>cin</code> reads from keyboard. Operators like <code>+</code>, <code>%</code>, <code>++</code>, <code>+=</code> let you compute and mutate values."] },
+        { tag:"flow", name:"Control Structures", intro:"Programs need to make decisions and repeat actions. Control structures are the logic backbone of every non-trivial program.", points:["Conditionals: <code>if / else if / else</code> branches code based on boolean conditions. <code>switch</code> is cleaner when testing one variable against many fixed values.","Loops: <code>for</code> (known count), <code>while</code> (condition-based), <code>do-while</code> (always runs at least once). Choose based on what you know at loop start.","<code>break</code> exits a loop immediately; <code>continue</code> skips the rest of the current iteration and goes to the next. Both help avoid deeply nested logic."] },
+        { tag:"func", name:"Functions", intro:"Functions let you package reusable logic, name it, and call it from anywhere. They are the primary tool for reducing repetition and organizing code.", points:["Declaration vs definition: a declaration (prototype) tells the compiler a function exists; the definition provides its body. Needed when calling a function before defining it.","Parameters pass data into a function; the <code>return</code> keyword sends a result back. Use <code>void</code> when nothing is returned.","Scope: variables declared inside a function are local — they don't exist outside. Global variables live for the entire program but should be used sparingly."] },
+        { tag:"str", name:"Basic I/O & Strings", intro:"Text is one of the most common data types. C++ provides the <code>string</code> class for safe, easy string handling far beyond raw character arrays.", points:["<code>std::string</code> is the go-to for text. It automatically manages memory, unlike C-style <code>char[]</code> arrays.","<code>cin</code> stops at whitespace — use <code>getline(cin, s)</code> to read a full line including spaces into string <code>s</code>.","Key operations: <code>s.length()</code>, <code>s1 + s2</code> (concatenation), <code>s1 == s2</code> (comparison), <code>s.substr(pos, len)</code> for slicing."] },
+      ],
+      s2: [
+        { tag:"mem", name:"Arrays & Vectors", intro:"When you need to store many values of the same type, arrays and vectors are your primary tools. Vectors are the modern, safer choice.", points:["Static arrays: <code>int arr[5]</code> — fixed size, stack-allocated, fast. Size must be known at compile time.","Dynamic arrays with <code>new</code>/<code>delete</code>: allocate on the heap at runtime, but you must free memory manually to avoid leaks.","<code>std::vector&lt;int&gt;</code> is a resizable array that manages its own memory. Use <code>.push_back()</code>, <code>.size()</code>, <code>.at(i)</code>. Prefer vectors over raw arrays in modern C++."] },
+        { tag:"ptr", name:"Pointers & References", intro:"Pointers are variables that hold memory addresses. They are one of C++'s most powerful — and misused — features. References are safer aliases.", points:["A pointer <code>int* p = &x;</code> holds the address of <code>x</code>. Dereference with <code>*p</code> to read/write the value. Pointer arithmetic moves by element size.","<code>nullptr</code> is the safe null pointer value. Always initialize pointers to avoid undefined behavior from dangling or garbage addresses.","A reference <code>int& r = x;</code> is an alias — it IS <code>x</code>, not a copy. References can't be null and can't be re-bound, making them safer than pointers for most use cases."] },
+        { tag:"type", name:"Structs & Enums", intro:"Structs group related variables into a single named type. Enums give meaningful names to sets of integer constants.", points:["<code>struct Student { string name; int age; float gpa; };</code> — bundle heterogeneous data together. Access members with dot notation: <code>s.name</code>.","<code>enum Color { RED, GREEN, BLUE };</code> — the compiler assigns 0, 1, 2. Enums make code self-documenting vs magic numbers.","Prefer <code>enum class</code> (scoped enum) in modern C++: <code>Color::RED</code> avoids name collisions and is more type-safe."] },
+        { tag:"str", name:"Strings & Char Arrays", intro:"Understanding both C-style strings and the modern <code>std::string</code> is important for reading legacy code and for performance-critical contexts.", points:["C-style: <code>char str[] = \"hello\"</code> — a null-terminated array. Functions like <code>strlen()</code>, <code>strcpy()</code>, <code>strcmp()</code> operate on them.","<code>std::string</code> advanced: <code>find()</code>, <code>replace()</code>, <code>erase()</code>, <code>to_string()</code>, <code>stoi()</code> for int conversion.","Mixing: <code>string.c_str()</code> gives a C-string pointer; <code>string(charPtr)</code> converts back. Needed when interfacing with C APIs."] },
+        { tag:"io", name:"File I/O", intro:"Reading and writing files lets your program persist data between runs. C++ provides stream-based file I/O through <code>&lt;fstream&gt;</code>.", points:["<code>ifstream fin(\"data.txt\");</code> opens a file for reading. Use <code>fin &gt;&gt; x</code> or <code>getline(fin, line)</code> to read data.","<code>ofstream fout(\"out.txt\");</code> opens a file for writing. <code>fout &lt;&lt; data;</code> works just like <code>cout</code>.","<code>fstream</code> handles both. Always check <code>if (file.is_open())</code> and close with <code>file.close()</code> — or use RAII (file closes automatically when object goes out of scope)."] },
+        { tag:"stl", name:"STL Basics", intro:"The Standard Template Library is C++'s built-in toolkit of containers and algorithms. Mastering STL makes you dramatically more productive.", points:["Containers: <code>vector</code> (dynamic array), <code>list</code> (doubly linked), <code>map</code> (sorted key→value), <code>set</code> (unique sorted values). Each has O(n) trade-offs.","Iterators: pointers to container elements. <code>for(auto it = v.begin(); it != v.end(); ++it)</code> or the cleaner range-for: <code>for(auto& x : v)</code>.","Algorithms from <code>&lt;algorithm&gt;</code>: <code>sort(v.begin(), v.end())</code>, <code>find()</code>, <code>count()</code>, <code>reverse()</code>. These work on any container via iterators."] },
+      ],
+      s3: [
+        { tag:"oop", name:"Classes & Objects", intro:"A class is a blueprint; an object is an instance. Classes encapsulate data and the functions that operate on it, forming the backbone of OOP.", points:["Access specifiers: <code>public</code> (anyone), <code>private</code> (class only), <code>protected</code> (class + subclasses). Use private for data, public for interface.","Constructors run when an object is created; destructors run when it's destroyed. Use constructors for initialization: <code>MyClass(int x) : value(x) {}</code>","Member functions operate on the object's data. <code>const</code> member functions promise not to modify the object — mark getters as <code>const</code>."] },
+        { tag:"oop", name:"Inheritance", intro:"Inheritance lets a class reuse and extend the behavior of another. It models 'is-a' relationships and reduces code duplication.", points:["<code>class Dog : public Animal {}</code> — Dog inherits all public/protected members of Animal. <code>public</code> inheritance preserves the access levels.","Override base class methods in derived classes. Call parent methods explicitly: <code>Animal::speak()</code> from within <code>Dog::speak()</code>.","Polymorphism: a base pointer/reference can point to derived objects. Combined with virtual functions, the right method runs at runtime — even through a base pointer."] },
+        { tag:"oop", name:"Polymorphism & Virtual Functions", intro:"Polymorphism lets you write code that works on a base type but behaves correctly for any derived type — the key to extensible designs.", points:["Compile-time: function overloading and templates — resolved by the compiler before running.","Runtime: declare <code>virtual void speak()</code> in the base class. C++ builds a vtable so the correct derived version is called through a base pointer.","Pure virtual: <code>virtual void draw() = 0;</code> makes the class abstract — cannot be instantiated, only subclassed. Forces all derived classes to implement <code>draw()</code>."] },
+        { tag:"op", name:"Operator Overloading", intro:"C++ lets you redefine operators (<code>+</code>, <code>==</code>, <code>&lt;&lt;</code>, etc.) for your custom types, making them work as naturally as built-in types.", points:["Define as a member: <code>Vector operator+(const Vector& b) const { return {x+b.x, y+b.y}; }</code>. Now <code>v1 + v2</code> just works.","Define <code>operator&lt;&lt;</code> as a <code>friend</code> function to enable <code>cout &lt;&lt; myObj;</code> — stream operators must be non-member.","Don't overload just because you can. Only overload when the meaning is obvious and consistent with the operator's natural semantics (e.g. <code>+</code> for adding vectors, not for logging)."] },
+        { tag:"mem", name:"Advanced Memory Management", intro:"Manual memory management with raw <code>new</code>/<code>delete</code> is error-prone. Smart pointers automate this using RAII — a fundamental C++ idiom.", points:["<code>unique_ptr&lt;T&gt;</code>: sole owner, automatically deleted when out of scope. Use <code>make_unique&lt;T&gt;()</code>. Can't be copied, only moved.","<code>shared_ptr&lt;T&gt;</code>: reference-counted — deleted when the last owner goes out of scope. Use when ownership is shared. <code>weak_ptr</code> breaks circular references.","RAII: resources (memory, files, locks) are tied to object lifetime. When the object is destroyed, the destructor releases the resource. This eliminates most leaks."] },
+        { tag:"tmpl", name:"Templates", intro:"Templates let you write type-agnostic code. Write a function or class once and the compiler generates versions for whatever types you use.", points:["Function template: <code>template&lt;typename T&gt; T max(T a, T b) { return a &gt; b ? a : b; }</code> — works for <code>int</code>, <code>double</code>, any comparable type.","Class template: <code>template&lt;typename T&gt; class Stack { vector&lt;T&gt; data; ... };</code> — a fully generic stack. The STL itself is built this way.","Template specialization: provide a custom implementation for a specific type when the generic one doesn't fit (e.g. <code>bool</code> for space-efficient bit packing)."] },
+      ],
+      s4: [
+        { tag:"c++17", name:"Modern C++ (C++11–20)", intro:"C++11 and later added features that dramatically reduce boilerplate and improve safety. These are now standard practice in professional C++ code.", points:["<code>auto</code> deduces the type automatically: <code>auto it = map.begin();</code>. <code>decltype(x)</code> gives you the type of an expression.","Lambda functions: inline anonymous functions. <code>[capture](params){ body }</code>. E.g. <code>sort(v.begin(), v.end(), [](int a, int b){ return a &gt; b; });</code>","<code>constexpr</code> forces evaluation at compile time. <code>static_assert</code> validates conditions at compile time. Both help catch bugs earlier."] },
+        { tag:"c++11", name:"Move Semantics & Rvalue References", intro:"Move semantics eliminate unnecessary copies by transferring ownership of resources instead of duplicating them — a major performance win.", points:["Lvalue: has a name/address (a variable). Rvalue: a temporary with no persistent address (a literal, expression result). Rvalue references (<code>&&</code>) bind to rvalues.","<code>std::move(x)</code> casts <code>x</code> to an rvalue, enabling a move constructor/assignment to steal its resources instead of copying them.","Perfect forwarding: <code>template&lt;typename T&gt; void wrap(T&& arg) { func(std::forward&lt;T&gt;(arg)); }</code> — preserves lvalue/rvalue-ness when passing arguments to another function."] },
+        { tag:"stl", name:"Advanced STL", intro:"Beyond the basics, the STL offers hash-based containers for O(1) lookups and a rich algorithm library that covers most common data-processing tasks.", points:["<code>unordered_map</code>/<code>unordered_set</code>: hash-based, O(1) average lookup vs O(log n) for <code>map</code>/<code>set</code>. Use when order doesn't matter.","<code>priority_queue&lt;int&gt;</code>: max-heap by default. Use for scheduling, Dijkstra's algorithm, or any 'always process the largest' scenario.","STL algorithms: <code>transform</code> (map over range), <code>accumulate</code> (fold/reduce), <code>any_of</code>/<code>all_of</code>/<code>none_of</code> for predicate checks. Combine with lambdas for expressive one-liners."] },
+        { tag:"thr", name:"Concurrency & Multithreading", intro:"Run tasks in parallel to exploit multi-core CPUs. C++11 introduced a portable threading model in the standard library.", points:["<code>std::thread t(func, args...);</code> launches a new thread. Call <code>t.join()</code> to wait for it to finish, or <code>t.detach()</code> to let it run independently.","<code>std::mutex</code> and <code>lock_guard&lt;mutex&gt;</code> protect shared data from race conditions. Never access shared mutable state from multiple threads without synchronization.","<code>std::async</code> runs a function asynchronously and returns a <code>future&lt;T&gt;</code>. Call <code>future.get()</code> to retrieve the result (blocks until done)."] },
+        { tag:"pat", name:"Design Patterns in C++", intro:"Design patterns are proven solutions to recurring design problems. They give a shared vocabulary and prevent reinventing the wheel.", points:["Singleton: ensures only one instance exists. Use a static instance accessor. Be careful with thread safety — use <code>call_once</code> or a static local.","Observer: objects subscribe to events from a subject. When the subject changes, it notifies all observers. Foundation of event systems and MVC architectures.","Factory: creates objects without exposing instantiation logic. Strategy: swap algorithms at runtime by encapsulating each behind a common interface — dependency injection in disguise."] },
+        { tag:"dbg", name:"Debugging & Profiling", intro:"Writing code is half the job — finding and fixing bugs and performance bottlenecks is the other half. These tools are essential for professional work.", points:["GDB (GNU Debugger): set breakpoints, step through code, inspect variables. Key commands: <code>break</code>, <code>run</code>, <code>next</code>, <code>print</code>, <code>backtrace</code>.","Valgrind (Linux): detects memory leaks, invalid reads/writes, and uninitialized values. Run as <code>valgrind --leak-check=full ./myprogram</code>.","Profiling with <code>gprof</code> or <code>perf</code>: find hotspots — which functions consume the most time. Optimization without profiling is guesswork."] },
+      ],
+      s5: [
+        { tag:"algo", name:"Algorithm Optimization & Complexity", intro:"At this level, knowing Big-O is not enough — you need to squeeze out constant factors, exploit cache behaviour, and pick the right algorithm for the hardware.", points:["Big-O analysis: O(1) > O(log n) > O(n) > O(n log n) > O(n²). Know the complexity of STL operations to reason about your program's scalability.","Cache efficiency matters more than instruction count on modern CPUs. Array-based structures outperform pointer-chasing structures (like linked lists) due to cache locality.","Competitive tricks: precomputation, two-pointer, sliding window, monotonic stacks/queues. These turn naive O(n²) solutions into O(n) or O(n log n)."] },
+        { tag:"bit", name:"Bit Manipulation", intro:"Working directly with bits unlocks ultra-fast operations and is essential for low-level systems, compression, graphics, and competitive programming.", points:["Core operators: <code>&</code> (AND), <code>|</code> (OR), <code>^</code> (XOR), <code>~</code> (NOT), <code>&lt;&lt;</code>/<code>&gt;&gt;</code> (shift). E.g. <code>x &amp; (x-1)</code> clears the lowest set bit.","Common tricks: check if bit i is set (<code>x &gt;&gt; i &amp; 1</code>), set bit i (<code>x | (1 &lt;&lt; i)</code>), toggle (<code>x ^ (1 &lt;&lt; i)</code>).","Bitmask DP: represent subsets as integers. With 20 items, enumerate all 2²⁰ subsets with a simple loop. Used in TSP, assignment problems, and more."] },
+        { tag:"ds", name:"Advanced Data Structures", intro:"Beyond STL basics, these structures solve problems that vectors and maps can't handle efficiently. Essential for competitive programming and systems work.", points:["Segment trees / Fenwick (BIT) trees: range queries and point updates in O(log n). Invaluable for sum/min/max over intervals.","Tries: prefix-tree for O(L) string lookups where L = string length. Used in autocomplete, IP routing, spell checking.","Disjoint Set Union (DSU/Union-Find): track connected components in O(α(n)) ≈ O(1) amortized. Core to Kruskal's MST algorithm."] },
+        { tag:"net", name:"Network Programming", intro:"C++ is heavily used in high-performance network applications. Understanding socket programming is essential for servers, games, and distributed systems.", points:["BSD sockets: <code>socket()</code>, <code>bind()</code>, <code>listen()</code>, <code>accept()</code>, <code>connect()</code>, <code>send()</code>/<code>recv()</code>. The foundation everything else builds on.","TCP vs UDP: TCP is reliable and ordered; UDP is fast and connectionless. Games often use UDP; file transfers use TCP.","Higher-level: use <code>Boost.Asio</code> or <code>libuv</code> for async I/O. <code>libcurl</code> for HTTP. Raw sockets are rarely used directly in production."] },
+        { tag:"gfx", name:"Game Development Basics", intro:"C++ is the dominant language in game development. SFML and OpenGL give you the tools to create 2D and 3D games from the ground up.", points:["SFML: Simple & Fast Multimedia Library. Handles windows, 2D graphics, audio, and input. Great for 2D games, simulations, and visualizations.","OpenGL: low-level GPU API. Vertices → shaders → rasterization → fragments → screen. Modern OpenGL (3.3+) uses programmable shaders written in GLSL.","Game loop: <code>while (running) { processInput(); update(dt); render(); }</code>. Delta time (<code>dt</code>) makes physics frame-rate independent."] },
+        { tag:"emb", name:"Embedded & Real-Time Systems", intro:"C++ is widely used in embedded systems — from microcontrollers to industrial automation. Real-time means meeting hard timing deadlines.", points:["Constraints: no heap allocation, no exceptions, no STL in bare-metal. Use static allocation, fixed-size buffers, and simple data structures.","Real-time OS (RTOS): FreeRTOS, Zephyr. Tasks get CPU time slices; priority scheduling ensures critical tasks meet deadlines.","Hardware interaction: memory-mapped I/O, <code>volatile</code> keyword to prevent compiler from optimizing away hardware register reads."] },
+      ],
     }
-  ],
-  s2: [
-    {
-      tag: "mem",
-      name: "Arrays & Vectors",
-      intro: "When you need to store many values of the same type, arrays and vectors are your primary tools. Vectors are the modern, safer choice.",
-      points: [
-        "Static arrays: <code>int arr[5]</code> — fixed size, stack-allocated, fast. Size must be known at compile time.",
-        "Dynamic arrays with <code>new</code>/<code>delete</code>: allocate on the heap at runtime, but you must free memory manually to avoid leaks.",
-        "<code>std::vector&lt;int&gt;</code> is a resizable array that manages its own memory. Use <code>.push_back()</code>, <code>.size()</code>, <code>.at(i)</code>. Prefer vectors over raw arrays in modern C++."
-      ]
-    },
-    {
-      tag: "ptr",
-      name: "Pointers & References",
-      intro: "Pointers are variables that hold memory addresses. They are one of C++'s most powerful — and misused — features. References are safer aliases.",
-      points: [
-        "A pointer <code>int* p = &x;</code> holds the address of <code>x</code>. Dereference with <code>*p</code> to read/write the value. Pointer arithmetic moves by element size.",
-        "<code>nullptr</code> is the safe null pointer value. Always initialize pointers to avoid undefined behavior from dangling or garbage addresses.",
-        "A reference <code>int& r = x;</code> is an alias — it IS <code>x</code>, not a copy. References can't be null and can't be re-bound, making them safer than pointers for most use cases."
-      ]
-    },
-    {
-      tag: "type",
-      name: "Structs & Enums",
-      intro: "Structs group related variables into a single named type. Enums give meaningful names to sets of integer constants.",
-      points: [
-        "<code>struct Student { string name; int age; float gpa; };</code> — bundle heterogeneous data together. Access members with dot notation: <code>s.name</code>.",
-        "<code>enum Color { RED, GREEN, BLUE };</code> — the compiler assigns 0, 1, 2. Enums make code self-documenting vs magic numbers.",
-        "Prefer <code>enum class</code> (scoped enum) in modern C++: <code>Color::RED</code> avoids name collisions and is more type-safe."
-      ]
-    },
-    {
-      tag: "str",
-      name: "Strings & Char Arrays",
-      intro: "Understanding both C-style strings and the modern <code>std::string</code> is important for reading legacy code and for performance-critical contexts.",
-      points: [
-        "C-style: <code>char str[] = \"hello\"</code> — a null-terminated array. Functions like <code>strlen()</code>, <code>strcpy()</code>, <code>strcmp()</code> operate on them.",
-        "<code>std::string</code> advanced: <code>find()</code>, <code>replace()</code>, <code>erase()</code>, <code>to_string()</code>, <code>stoi()</code> for int conversion.",
-        "Mixing: <code>string.c_str()</code> gives a C-string pointer; <code>string(charPtr)</code> converts back. Needed when interfacing with C APIs."
-      ]
-    },
-    {
-      tag: "io",
-      name: "File I/O",
-      intro: "Reading and writing files lets your program persist data between runs. C++ provides stream-based file I/O through <code>&lt;fstream&gt;</code>.",
-      points: [
-        "<code>ifstream fin(\"data.txt\");</code> opens a file for reading. Use <code>fin &gt;&gt; x</code> or <code>getline(fin, line)</code> to read data.",
-        "<code>ofstream fout(\"out.txt\");</code> opens a file for writing. <code>fout &lt;&lt; data;</code> works just like <code>cout</code>.",
-        "<code>fstream</code> handles both. Always check <code>if (file.is_open())</code> and close with <code>file.close()</code> — or use RAII (file closes automatically when object goes out of scope)."
-      ]
-    },
-    {
-      tag: "stl",
-      name: "STL Basics",
-      intro: "The Standard Template Library is C++'s built-in toolkit of containers and algorithms. Mastering STL makes you dramatically more productive.",
-      points: [
-        "Containers: <code>vector</code> (dynamic array), <code>list</code> (doubly linked), <code>map</code> (sorted key→value), <code>set</code> (unique sorted values). Each has O(n) trade-offs.",
-        "Iterators: pointers to container elements. <code>for(auto it = v.begin(); it != v.end(); ++it)</code> or the cleaner range-for: <code>for(auto& x : v)</code>.",
-        "Algorithms from <code>&lt;algorithm&gt;</code>: <code>sort(v.begin(), v.end())</code>, <code>find()</code>, <code>count()</code>, <code>reverse()</code>. These work on any container via iterators."
-      ]
+  },
+
+  fr: {
+    pretitle: "parcours complet d'apprentissage du C++",
+    tagline: "Cliquez sur un sujet pour obtenir une explication rapide",
+    stages: [
+      { num: "ÉTAPE 01", title: "Débutant — Fondations", goal: "Comprendre la syntaxe de base, les types de données et la logique de programmation" },
+      { num: "ÉTAPE 02", title: "Intermédiaire — Concepts Fondamentaux", goal: "Structurer les programmes et utiliser efficacement les bibliothèques standard" },
+      { num: "ÉTAPE 03", title: "Avancé — Programmation Orientée Objet", goal: "Modéliser des problèmes réels avec les principes de la POO" },
+      { num: "ÉTAPE 04", title: "Expert — C++ Moderne", goal: "Maîtriser les fonctionnalités modernes et les techniques avancées" },
+      { num: "ÉTAPE 05", title: "Expert — Compétitif & Systèmes", goal: "Utiliser C++ pour des applications professionnelles haute performance" },
+    ],
+    stageNames: ["Étape 1 · Fondations","Étape 2 · Concepts Fondamentaux","Étape 3 · POO","Étape 4 · C++ Moderne","Étape 5 · Systèmes"],
+    topics: {
+      s1: [
+        { tag:"env", name:"Configuration C++", intro:"Avant d'écrire du code C++, vous avez besoin d'un compilateur et d'un éditeur. Cette étape garantit que vous pouvez écrire, compiler et exécuter des programmes.", points:["Installez un IDE : <a href='https://code.visualstudio.com/' target='_blank'>VS Code</a> (gratuit, extensible), ou <a href='https://visualstudio.microsoft.com/' target='_blank'>Visual Studio</a> (puissant sous Windows).","Installez un compilateur : <a href='https://gcc.gnu.org/' target='_blank'>GCC</a> sur Linux/macOS, <a href='https://www.mingw-w64.org/' target='_blank'>MinGW-w64</a> sur Windows. Le compilateur transforme votre fichier source <code>.cpp</code> en exécutable.","Compilez depuis le terminal : <code>g++ main.cpp -o main</code> puis exécutez avec <code>./main</code> — comprendre ce flux démystifie ce que les IDE font automatiquement."] },
+        { tag:"core", name:"Bases du C++", intro:"Les fondements absolus du langage. Vous écrirez votre premier programme, stockerez des données, interagirez avec l'utilisateur et effectuerez des calculs.", points:["<code>Hello World</code> : <code>#include &lt;iostream&gt;</code> et <code>std::cout &lt;&lt; \"Hello World\";</code> — votre premier programme fonctionnel.","Variables & types : <code>int</code> (entiers), <code>float</code>/<code>double</code> (décimaux), <code>char</code> (caractère unique), <code>bool</code> (vrai/faux). Chacun a une taille fixe en mémoire.","E/S : <code>cout</code> affiche à l'écran, <code>cin</code> lit depuis le clavier. Les opérateurs <code>+</code>, <code>%</code>, <code>++</code>, <code>+=</code> permettent de calculer et de modifier les valeurs."] },
+        { tag:"flow", name:"Structures de Contrôle", intro:"Les programmes ont besoin de prendre des décisions et de répéter des actions. Les structures de contrôle sont l'épine dorsale logique de tout programme non trivial.", points:["Conditionnelles : <code>if / else if / else</code> branche le code selon des conditions booléennes. <code>switch</code> est plus clair pour tester une variable contre plusieurs valeurs fixes.","Boucles : <code>for</code> (nombre connu), <code>while</code> (basée sur une condition), <code>do-while</code> (s'exécute au moins une fois). Choisissez selon ce que vous savez au début de la boucle.","<code>break</code> quitte une boucle immédiatement ; <code>continue</code> saute le reste de l'itération courante. Les deux aident à éviter une logique trop imbriquée."] },
+        { tag:"func", name:"Fonctions", intro:"Les fonctions permettent de regrouper de la logique réutilisable, de la nommer et de l'appeler depuis n'importe où. C'est l'outil principal pour réduire la répétition.", points:["Déclaration vs définition : une déclaration (prototype) informe le compilateur qu'une fonction existe ; la définition fournit son corps. Nécessaire pour appeler une fonction avant de la définir.","Les paramètres transmettent des données à une fonction ; le mot-clé <code>return</code> renvoie un résultat. Utilisez <code>void</code> quand rien n'est renvoyé.","Portée : les variables déclarées dans une fonction sont locales — elles n'existent pas en dehors. Les variables globales existent pendant tout le programme, mais doivent être utilisées avec parcimonie."] },
+        { tag:"str", name:"E/S de Base & Chaînes", intro:"Le texte est l'un des types de données les plus courants. C++ fournit la classe <code>string</code> pour une gestion sûre et facile des chaînes.", points:["<code>std::string</code> est la référence pour le texte. Elle gère automatiquement la mémoire, contrairement aux tableaux C-style <code>char[]</code>.","<code>cin</code> s'arrête aux espaces — utilisez <code>getline(cin, s)</code> pour lire une ligne entière incluant les espaces dans la chaîne <code>s</code>.","Opérations clés : <code>s.length()</code>, <code>s1 + s2</code> (concaténation), <code>s1 == s2</code> (comparaison), <code>s.substr(pos, len)</code> pour découper."] },
+      ],
+      s2: [
+        { tag:"mem", name:"Tableaux & Vecteurs", intro:"Pour stocker de nombreuses valeurs du même type, les tableaux et les vecteurs sont vos outils principaux. Les vecteurs sont le choix moderne et plus sûr.", points:["Tableaux statiques : <code>int arr[5]</code> — taille fixe, alloués sur la pile, rapides. La taille doit être connue à la compilation.","Tableaux dynamiques avec <code>new</code>/<code>delete</code> : alloués sur le tas au moment de l'exécution, mais vous devez libérer la mémoire manuellement pour éviter les fuites.","<code>std::vector&lt;int&gt;</code> est un tableau redimensionnable qui gère sa propre mémoire. Utilisez <code>.push_back()</code>, <code>.size()</code>, <code>.at(i)</code>. Préférez les vecteurs aux tableaux bruts en C++ moderne."] },
+        { tag:"ptr", name:"Pointeurs & Références", intro:"Les pointeurs sont des variables qui contiennent des adresses mémoire. C'est l'une des fonctionnalités les plus puissantes — et les plus mal utilisées — de C++.", points:["Un pointeur <code>int* p = &x;</code> contient l'adresse de <code>x</code>. Déréférencez avec <code>*p</code> pour lire/écrire la valeur. L'arithmétique de pointeur se déplace par taille d'élément.","<code>nullptr</code> est la valeur de pointeur null sécurisée. Initialisez toujours les pointeurs pour éviter un comportement indéfini.","Une référence <code>int& r = x;</code> est un alias — c'est <code>x</code>, pas une copie. Les références ne peuvent pas être nulles et ne peuvent pas être réliées, ce qui les rend plus sûres que les pointeurs."] },
+        { tag:"type", name:"Structures & Énumérations", intro:"Les structures regroupent des variables liées dans un type nommé unique. Les énumérations donnent des noms significatifs à des ensembles de constantes entières.", points:["<code>struct Student { string name; int age; float gpa; };</code> — regroupez des données hétérogènes. Accédez aux membres avec la notation point : <code>s.name</code>.","<code>enum Color { RED, GREEN, BLUE };</code> — le compilateur attribue 0, 1, 2. Les énumérations rendent le code auto-documenté vs les nombres magiques.","Préférez <code>enum class</code> (enum scopé) en C++ moderne : <code>Color::RED</code> évite les collisions de noms et est plus sûr en termes de types."] },
+        { tag:"str", name:"Chaînes & Tableaux de Caractères", intro:"Comprendre à la fois les chaînes de style C et le <code>std::string</code> moderne est important pour lire le code hérité et les contextes critiques en termes de performance.", points:["Style C : <code>char str[] = \"hello\"</code> — un tableau à terminaison nulle. Les fonctions <code>strlen()</code>, <code>strcpy()</code>, <code>strcmp()</code> opèrent dessus.","<code>std::string</code> avancé : <code>find()</code>, <code>replace()</code>, <code>erase()</code>, <code>to_string()</code>, <code>stoi()</code> pour la conversion en entier.","Mélange : <code>string.c_str()</code> donne un pointeur C-string ; <code>string(charPtr)</code> convertit en sens inverse. Nécessaire pour interfacer avec les API C."] },
+        { tag:"io", name:"Fichiers E/S", intro:"Lire et écrire des fichiers permet à votre programme de persister des données entre les exécutions. C++ fournit des E/S de fichier basées sur des flux via <code>&lt;fstream&gt;</code>.", points:["<code>ifstream fin(\"data.txt\");</code> ouvre un fichier en lecture. Utilisez <code>fin &gt;&gt; x</code> ou <code>getline(fin, line)</code> pour lire les données.","<code>ofstream fout(\"out.txt\");</code> ouvre un fichier en écriture. <code>fout &lt;&lt; data;</code> fonctionne exactement comme <code>cout</code>.","<code>fstream</code> gère les deux. Vérifiez toujours <code>if (file.is_open())</code> et fermez avec <code>file.close()</code> — ou utilisez RAII (le fichier se ferme automatiquement quand l'objet sort de la portée)."] },
+        { tag:"stl", name:"Bases de la STL", intro:"La Bibliothèque de Modèles Standard est la boîte à outils intégrée de C++ pour les conteneurs et les algorithmes. Maîtriser la STL vous rend beaucoup plus productif.", points:["Conteneurs : <code>vector</code> (tableau dynamique), <code>list</code> (doublement lié), <code>map</code> (clé→valeur trié), <code>set</code> (valeurs uniques triées). Chacun a des compromis O(n).","Itérateurs : pointeurs vers les éléments du conteneur. <code>for(auto it = v.begin(); it != v.end(); ++it)</code> ou le range-for plus clair : <code>for(auto& x : v)</code>.","Algorithmes de <code>&lt;algorithm&gt;</code> : <code>sort(v.begin(), v.end())</code>, <code>find()</code>, <code>count()</code>, <code>reverse()</code>. Ils fonctionnent sur tout conteneur via des itérateurs."] },
+      ],
+      s3: [
+        { tag:"poo", name:"Classes & Objets", intro:"Une classe est un modèle ; un objet est une instance. Les classes encapsulent les données et les fonctions qui opèrent dessus, formant la colonne vertébrale de la POO.", points:["Spécificateurs d'accès : <code>public</code> (tout le monde), <code>private</code> (classe uniquement), <code>protected</code> (classe + sous-classes). Utilisez private pour les données, public pour l'interface.","Les constructeurs s'exécutent à la création d'un objet ; les destructeurs à sa destruction. Utilisez les constructeurs pour l'initialisation : <code>MyClass(int x) : value(x) {}</code>","Les fonctions membres opèrent sur les données de l'objet. Les fonctions membres <code>const</code> promettent de ne pas modifier l'objet — marquez les getters comme <code>const</code>."] },
+        { tag:"poo", name:"Héritage", intro:"L'héritage permet à une classe de réutiliser et d'étendre le comportement d'une autre. Il modélise les relations 'est-un' et réduit la duplication de code.", points:["<code>class Dog : public Animal {}</code> — Dog hérite de tous les membres publics/protégés d'Animal. L'héritage <code>public</code> préserve les niveaux d'accès.","Redéfinissez les méthodes de la classe de base dans les classes dérivées. Appelez les méthodes parentes explicitement : <code>Animal::speak()</code> depuis <code>Dog::speak()</code>.","Polymorphisme : un pointeur/référence de base peut pointer vers des objets dérivés. Combiné avec les fonctions virtuelles, la bonne méthode s'exécute au moment de l'exécution."] },
+        { tag:"poo", name:"Polymorphisme & Fonctions Virtuelles", intro:"Le polymorphisme permet d'écrire du code qui fonctionne sur un type de base mais se comporte correctement pour tout type dérivé — la clé des conceptions extensibles.", points:["À la compilation : surcharge de fonctions et modèles — résolus par le compilateur avant l'exécution.","À l'exécution : déclarez <code>virtual void speak()</code> dans la classe de base. C++ construit une vtable pour que la version dérivée correcte soit appelée via un pointeur de base.","Virtuel pur : <code>virtual void draw() = 0;</code> rend la classe abstraite — ne peut pas être instanciée, seulement sous-classée. Force toutes les classes dérivées à implémenter <code>draw()</code>."] },
+        { tag:"op", name:"Surcharge d'Opérateurs", intro:"C++ vous permet de redéfinir les opérateurs (<code>+</code>, <code>==</code>, <code>&lt;&lt;</code>, etc.) pour vos types personnalisés, les faisant fonctionner aussi naturellement que les types intégrés.", points:["Définissez comme membre : <code>Vector operator+(const Vector& b) const { return {x+b.x, y+b.y}; }</code>. Maintenant <code>v1 + v2</code> fonctionne directement.","Définissez <code>operator&lt;&lt;</code> comme une fonction <code>friend</code> pour activer <code>cout &lt;&lt; myObj;</code> — les opérateurs de flux doivent être non-membres.","Ne surchargez pas juste parce que vous pouvez. Surchargez uniquement quand le sens est évident et cohérent avec la sémantique naturelle de l'opérateur."] },
+        { tag:"mem", name:"Gestion Avancée de la Mémoire", intro:"La gestion manuelle de la mémoire avec <code>new</code>/<code>delete</code> bruts est sujette aux erreurs. Les pointeurs intelligents automatisent cela via RAII — un idiome fondamental de C++.", points:["<code>unique_ptr&lt;T&gt;</code> : propriétaire unique, supprimé automatiquement quand il sort de la portée. Utilisez <code>make_unique&lt;T&gt;()</code>. Ne peut pas être copié, seulement déplacé.","<code>shared_ptr&lt;T&gt;</code> : comptage de références — supprimé quand le dernier propriétaire sort de la portée. <code>weak_ptr</code> brise les références circulaires.","RAII : les ressources (mémoire, fichiers, verrous) sont liées à la durée de vie des objets. Quand l'objet est détruit, le destructeur libère la ressource. Cela élimine la plupart des fuites."] },
+        { tag:"tmpl", name:"Templates", intro:"Les templates permettent d'écrire du code indépendant du type. Écrivez une fonction ou une classe une fois et le compilateur génère des versions pour tous les types utilisés.", points:["Template de fonction : <code>template&lt;typename T&gt; T max(T a, T b) { return a &gt; b ? a : b; }</code> — fonctionne pour <code>int</code>, <code>double</code>, tout type comparable.","Template de classe : <code>template&lt;typename T&gt; class Stack { vector&lt;T&gt; data; ... };</code> — une pile entièrement générique. La STL elle-même est construite ainsi.","Spécialisation de template : fournissez une implémentation personnalisée pour un type spécifique quand le générique ne convient pas."] },
+      ],
+      s4: [
+        { tag:"c++17", name:"C++ Moderne (C++11–20)", intro:"C++11 et versions ultérieures ont ajouté des fonctionnalités qui réduisent considérablement le code répétitif et améliorent la sécurité. C'est maintenant la pratique standard en C++ professionnel.", points:["<code>auto</code> déduit automatiquement le type : <code>auto it = map.begin();</code>. <code>decltype(x)</code> vous donne le type d'une expression.","Fonctions lambda : fonctions anonymes en ligne. <code>[capture](params){ body }</code>. Ex. <code>sort(v.begin(), v.end(), [](int a, int b){ return a &gt; b; });</code>","<code>constexpr</code> force l'évaluation à la compilation. <code>static_assert</code> valide les conditions à la compilation. Les deux aident à détecter les bugs plus tôt."] },
+        { tag:"c++11", name:"Sémantique de Déplacement & Références Rvalue", intro:"La sémantique de déplacement élimine les copies inutiles en transférant la propriété des ressources au lieu de les dupliquer — un gain de performance majeur.", points:["Lvalue : a un nom/adresse (une variable). Rvalue : un temporaire sans adresse persistante. Les références rvalue (<code>&&</code>) se lient aux rvalues.","<code>std::move(x)</code> convertit <code>x</code> en rvalue, permettant à un constructeur de déplacement de voler ses ressources au lieu de les copier.","Transfert parfait : <code>template&lt;typename T&gt; void wrap(T&& arg) { func(std::forward&lt;T&gt;(arg)); }</code> — préserve la nature lvalue/rvalue lors du passage d'arguments."] },
+        { tag:"stl", name:"STL Avancée", intro:"Au-delà des bases, la STL offre des conteneurs basés sur le hachage pour des recherches O(1) et une riche bibliothèque d'algorithmes.", points:["<code>unordered_map</code>/<code>unordered_set</code> : basés sur le hachage, recherche O(1) en moyenne vs O(log n) pour <code>map</code>/<code>set</code>. Utilisez quand l'ordre n'importe pas.","<code>priority_queue&lt;int&gt;</code> : tas-max par défaut. Utilisez pour l'ordonnancement, l'algorithme de Dijkstra, ou tout scénario 'toujours traiter le plus grand'.","Algorithmes STL : <code>transform</code>, <code>accumulate</code>, <code>any_of</code>/<code>all_of</code>/<code>none_of</code> pour les vérifications de prédicats. Combinez avec des lambdas pour des one-liners expressifs."] },
+        { tag:"thr", name:"Concurrence & Multithreading", intro:"Exécutez des tâches en parallèle pour exploiter les CPU multi-cœurs. C++11 a introduit un modèle de threading portable dans la bibliothèque standard.", points:["<code>std::thread t(func, args...);</code> lance un nouveau thread. Appelez <code>t.join()</code> pour attendre sa fin, ou <code>t.detach()</code> pour le laisser s'exécuter indépendamment.","<code>std::mutex</code> et <code>lock_guard&lt;mutex&gt;</code> protègent les données partagées des conditions de course. N'accédez jamais à un état mutable partagé depuis plusieurs threads sans synchronisation.","<code>std::async</code> exécute une fonction de manière asynchrone et retourne un <code>future&lt;T&gt;</code>. Appelez <code>future.get()</code> pour récupérer le résultat."] },
+        { tag:"pat", name:"Patrons de Conception en C++", intro:"Les patrons de conception sont des solutions éprouvées aux problèmes récurrents de conception. Ils donnent un vocabulaire partagé et évitent de réinventer la roue.", points:["Singleton : garantit qu'une seule instance existe. Utilisez un accesseur d'instance statique. Attention à la sécurité des threads — utilisez <code>call_once</code> ou un local statique.","Observateur : les objets s'abonnent aux événements d'un sujet. Quand le sujet change, il notifie tous les observateurs. Fondement des systèmes d'événements et des architectures MVC.","Fabrique : crée des objets sans exposer la logique d'instanciation. Stratégie : échange d'algorithmes à l'exécution — injection de dépendances en déguisement."] },
+        { tag:"dbg", name:"Débogage & Profilage", intro:"Écrire du code est la moitié du travail — trouver et corriger les bugs et les goulots d'étranglement de performance est l'autre moitié. Ces outils sont essentiels.", points:["GDB (GNU Debugger) : définissez des points d'arrêt, parcourez le code, inspectez les variables. Commandes clés : <code>break</code>, <code>run</code>, <code>next</code>, <code>print</code>, <code>backtrace</code>.","Valgrind (Linux) : détecte les fuites mémoire, les lectures/écritures invalides. Exécutez avec <code>valgrind --leak-check=full ./myprogram</code>.","Profilage avec <code>gprof</code> ou <code>perf</code> : trouvez les points chauds — quelles fonctions consomment le plus de temps. Optimiser sans profilage, c'est deviner."] },
+      ],
+      s5: [
+        { tag:"algo", name:"Optimisation & Complexité des Algorithmes", intro:"À ce niveau, connaître Big-O ne suffit pas — vous devez extraire les facteurs constants, exploiter le comportement du cache et choisir le bon algorithme.", points:["Analyse Big-O : O(1) > O(log n) > O(n) > O(n log n) > O(n²). Connaissez la complexité des opérations STL pour raisonner sur la scalabilité.","L'efficacité du cache importe plus que le nombre d'instructions sur les CPU modernes. Les structures basées sur des tableaux surpassent les structures à chaînage de pointeurs.","Astuces compétitives : précalcul, deux pointeurs, fenêtre glissante, piles/files monotones. Ces techniques transforment des solutions O(n²) naïves en O(n) ou O(n log n)."] },
+        { tag:"bit", name:"Manipulation de Bits", intro:"Travailler directement avec des bits débloque des opérations ultra-rapides et est essentiel pour les systèmes de bas niveau, la compression, les graphiques et la programmation compétitive.", points:["Opérateurs de base : <code>&</code> (ET), <code>|</code> (OU), <code>^</code> (XOR), <code>~</code> (NON), <code>&lt;&lt;</code>/<code>&gt;&gt;</code> (décalage). Ex. <code>x &amp; (x-1)</code> efface le bit le plus bas.","Astuces courantes : vérifier si le bit i est défini (<code>x &gt;&gt; i &amp; 1</code>), définir le bit i (<code>x | (1 &lt;&lt; i)</code>), basculer (<code>x ^ (1 &lt;&lt; i)</code>).","DP par masques de bits : représentez les sous-ensembles comme des entiers. Avec 20 éléments, énumérez tous les 2²⁰ sous-ensembles avec une simple boucle."] },
+        { tag:"ds", name:"Structures de Données Avancées", intro:"Au-delà des bases de la STL, ces structures résolvent des problèmes que les vecteurs et les maps ne peuvent pas traiter efficacement.", points:["Arbres de segments / arbres Fenwick (BIT) : requêtes de plage et mises à jour ponctuelles en O(log n). Précieux pour la somme/min/max sur des intervalles.","Tries : arbre préfixe pour des recherches de chaînes en O(L). Utilisé dans l'auto-complétion, le routage IP, la correction orthographique.","Union-Find (DSU) : suivez les composantes connexes en O(α(n)) ≈ O(1) amorti. Central dans l'algorithme de Kruskal pour l'arbre couvrant minimal."] },
+        { tag:"net", name:"Programmation Réseau", intro:"C++ est largement utilisé dans les applications réseau haute performance. Comprendre la programmation de sockets est essentiel pour les serveurs, les jeux et les systèmes distribués.", points:["Sockets BSD : <code>socket()</code>, <code>bind()</code>, <code>listen()</code>, <code>accept()</code>, <code>connect()</code>, <code>send()</code>/<code>recv()</code>. La fondation sur laquelle tout le reste est construit.","TCP vs UDP : TCP est fiable et ordonné ; UDP est rapide et sans connexion. Les jeux utilisent souvent UDP ; les transferts de fichiers utilisent TCP.","Niveau supérieur : utilisez <code>Boost.Asio</code> ou <code>libuv</code> pour l'E/S async. <code>libcurl</code> pour HTTP. Les sockets bruts sont rarement utilisés directement en production."] },
+        { tag:"jeux", name:"Bases du Développement de Jeux", intro:"C++ est le langage dominant dans le développement de jeux. SFML et OpenGL vous donnent les outils pour créer des jeux 2D et 3D depuis zéro.", points:["SFML : Bibliothèque Multimédia Simple & Rapide. Gère les fenêtres, les graphiques 2D, l'audio et les entrées. Idéale pour les jeux 2D, les simulations et les visualisations.","OpenGL : API GPU de bas niveau. Sommets → shaders → rastérisation → fragments → écran. OpenGL moderne (3.3+) utilise des shaders programmables écrits en GLSL.","Boucle de jeu : <code>while (running) { processInput(); update(dt); render(); }</code>. Le delta temps (<code>dt</code>) rend la physique indépendante de la fréquence d'images."] },
+        { tag:"emb", name:"Systèmes Embarqués & Temps Réel", intro:"C++ est largement utilisé dans les systèmes embarqués — des microcontrôleurs à l'automatisation industrielle. Temps réel signifie respecter des délais stricts.", points:["Contraintes : pas d'allocation sur le tas, pas d'exceptions, pas de STL en bare-metal. Utilisez l'allocation statique, des tampons de taille fixe et des structures de données simples.","OS temps réel (RTOS) : FreeRTOS, Zephyr. Les tâches obtiennent des tranches de temps CPU ; l'ordonnancement par priorité garantit que les tâches critiques respectent les délais.","Interaction matérielle : E/S mappée en mémoire, mot-clé <code>volatile</code> pour empêcher le compilateur d'optimiser les lectures de registres matériels."] },
+      ],
     }
-  ],
-  s3: [
-    {
-      tag: "oop",
-      name: "Classes & Objects",
-      intro: "A class is a blueprint; an object is an instance. Classes encapsulate data and the functions that operate on it, forming the backbone of OOP.",
-      points: [
-        "Access specifiers: <code>public</code> (anyone), <code>private</code> (class only), <code>protected</code> (class + subclasses). Use private for data, public for interface.",
-        "Constructors run when an object is created; destructors run when it's destroyed. Use constructors for initialization: <code>MyClass(int x) : value(x) {}</code>",
-        "Member functions operate on the object's data. <code>const</code> member functions promise not to modify the object — mark getters as <code>const</code>."
-      ]
-    },
-    {
-      tag: "oop",
-      name: "Inheritance",
-      intro: "Inheritance lets a class reuse and extend the behavior of another. It models 'is-a' relationships and reduces code duplication.",
-      points: [
-        "<code>class Dog : public Animal {}</code> — Dog inherits all public/protected members of Animal. <code>public</code> inheritance preserves the access levels.",
-        "Override base class methods in derived classes. Call parent methods explicitly: <code>Animal::speak()</code> from within <code>Dog::speak()</code>.",
-        "Polymorphism: a base pointer/reference can point to derived objects. Combined with virtual functions, the right method runs at runtime — even through a base pointer."
-      ]
-    },
-    {
-      tag: "oop",
-      name: "Polymorphism & Virtual Functions",
-      intro: "Polymorphism lets you write code that works on a base type but behaves correctly for any derived type — the key to extensible designs.",
-      points: [
-        "Compile-time: function overloading and templates — resolved by the compiler before running.",
-        "Runtime: declare <code>virtual void speak()</code> in the base class. C++ builds a vtable so the correct derived version is called through a base pointer.",
-        "Pure virtual: <code>virtual void draw() = 0;</code> makes the class abstract — cannot be instantiated, only subclassed. Forces all derived classes to implement <code>draw()</code>."
-      ]
-    },
-    {
-      tag: "op",
-      name: "Operator Overloading",
-      intro: "C++ lets you redefine operators (<code>+</code>, <code>==</code>, <code>&lt;&lt;</code>, etc.) for your custom types, making them work as naturally as built-in types.",
-      points: [
-        "Define as a member: <code>Vector operator+(const Vector& b) const { return {x+b.x, y+b.y}; }</code>. Now <code>v1 + v2</code> just works.",
-        "Define <code>operator&lt;&lt;</code> as a <code>friend</code> function to enable <code>cout &lt;&lt; myObj;</code> — stream operators must be non-member.",
-        "Don't overload just because you can. Only overload when the meaning is obvious and consistent with the operator's natural semantics (e.g. <code>+</code> for adding vectors, not for logging)."
-      ]
-    },
-    {
-      tag: "mem",
-      name: "Advanced Memory Management",
-      intro: "Manual memory management with raw <code>new</code>/<code>delete</code> is error-prone. Smart pointers automate this using RAII — a fundamental C++ idiom.",
-      points: [
-        "<code>unique_ptr&lt;T&gt;</code>: sole owner, automatically deleted when out of scope. Use <code>make_unique&lt;T&gt;()</code>. Can't be copied, only moved.",
-        "<code>shared_ptr&lt;T&gt;</code>: reference-counted — deleted when the last owner goes out of scope. Use when ownership is shared. <code>weak_ptr</code> breaks circular references.",
-        "RAII: resources (memory, files, locks) are tied to object lifetime. When the object is destroyed, the destructor releases the resource. This eliminates most leaks."
-      ]
-    },
-    {
-      tag: "tmpl",
-      name: "Templates",
-      intro: "Templates let you write type-agnostic code. Write a function or class once and the compiler generates versions for whatever types you use.",
-      points: [
-        "Function template: <code>template&lt;typename T&gt; T max(T a, T b) { return a &gt; b ? a : b; }</code> — works for <code>int</code>, <code>double</code>, any comparable type.",
-        "Class template: <code>template&lt;typename T&gt; class Stack { vector&lt;T&gt; data; ... };</code> — a fully generic stack. The STL itself is built this way.",
-        "Template specialization: provide a custom implementation for a specific type when the generic one doesn't fit (e.g. <code>bool</code> for space-efficient bit packing)."
-      ]
+  },
+
+  ar: {
+    pretitle: "مسار تعلم C++ الشامل",
+    tagline: "انقر على أي موضوع للحصول على شرح سريع",
+    stages: [
+      { num: "المرحلة ٠١", title: "مبتدئ — الأساسيات", goal: "فهم البنية الأساسية وأنواع البيانات ومنطق البرمجة" },
+      { num: "المرحلة ٠٢", title: "متوسط — المفاهيم الأساسية", goal: "هيكلة البرامج واستخدام المكتبات القياسية بفاعلية" },
+      { num: "المرحلة ٠٣", title: "متقدم — البرمجة كائنية التوجه", goal: "نمذجة المشكلات الواقعية باستخدام مبادئ البرمجة كائنية التوجه" },
+      { num: "المرحلة ٠٤", title: "خبير — C++ الحديثة", goal: "إتقان الميزات الحديثة والتقنيات المتقدمة" },
+      { num: "المرحلة ٠٥", title: "خبير — التنافسية والأنظمة", goal: "استخدام C++ في التطبيقات الاحترافية عالية الأداء" },
+    ],
+    stageNames: ["المرحلة ١ · الأساسيات","المرحلة ٢ · المفاهيم الأساسية","المرحلة ٣ · البرمجة كائنية التوجه","المرحلة ٤ · C++ الحديثة","المرحلة ٥ · الأنظمة"],
+    topics: {
+      s1: [
+        { tag:"بيئة", name:"إعداد C++", intro:"قبل كتابة أي كود C++، تحتاج إلى مترجم ومحرر. تضمن هذه الخطوة أنك قادر على كتابة البرامج وترجمتها وتشغيلها.", points:["تثبيت بيئة تطوير: <a href='https://code.visualstudio.com/' target='_blank'>VS Code</a> (مجاني وقابل للتوسعة)، أو <a href='https://visualstudio.microsoft.com/' target='_blank'>Visual Studio</a> (قوي على ويندوز).","تثبيت مترجم: <a href='https://gcc.gnu.org/' target='_blank'>GCC</a> على Linux/macOS، أو <a href='https://www.mingw-w64.org/' target='_blank'>MinGW-w64</a> على ويندوز. يحوّل المترجم ملف المصدر <code>.cpp</code> إلى ملف تنفيذي.","الترجمة من الطرفية: <code>g++ main.cpp -o main</code> ثم التشغيل بـ <code>./main</code> — فهم هذا التسلسل يزيل الغموض عما تفعله بيئات التطوير تلقائياً."] },
+        { tag:"أساس", name:"أساسيات C++", intro:"اللبنات المطلقة للغة. ستكتب برنامجك الأول، وتخزّن البيانات، وتتفاعل مع المستخدم، وتُجري الحسابات.", points:["<code>Hello World</code>: <code>#include &lt;iostream&gt;</code> و <code>std::cout &lt;&lt; \"Hello World\";</code> — برنامجك الأول الفعّال.","المتغيرات والأنواع: <code>int</code> (أعداد صحيحة)، <code>float</code>/<code>double</code> (أعداد عشرية)، <code>char</code> (حرف واحد)، <code>bool</code> (صحيح/خطأ). لكل منها حجم ثابت في الذاكرة.","الإدخال/الإخراج: <code>cout</code> للطباعة، <code>cin</code> للقراءة من لوحة المفاتيح. العوامل مثل <code>+</code>، <code>%</code>، <code>++</code>، <code>+=</code> تتيح الحسابات وتعديل القيم."] },
+        { tag:"تحكم", name:"هياكل التحكم", intro:"البرامج تحتاج لاتخاذ قرارات وتكرار الإجراءات. هياكل التحكم هي العمود الفقري المنطقي لكل برنامج غير تافه.", points:["الشرطيات: <code>if / else if / else</code> تفرّع الكود بناءً على شروط منطقية. <code>switch</code> أوضح عند اختبار متغير واحد ضد قيم ثابتة متعددة.","الحلقات: <code>for</code> (عدد معروف)، <code>while</code> (مبنية على شرط)، <code>do-while</code> (تعمل مرة على الأقل). اختر بناءً على ما تعرفه في بداية الحلقة.","<code>break</code> يخرج من الحلقة فوراً؛ <code>continue</code> يتخطى بقية التكرار الحالي. كلاهما يساعد على تجنب المنطق المتداخل العميق."] },
+        { tag:"دوال", name:"الدوال", intro:"الدوال تتيح تعبئة المنطق القابل لإعادة الاستخدام، وتسميته، واستدعائه من أي مكان. هي الأداة الأساسية لتقليل التكرار وتنظيم الكود.", points:["الإعلان مقابل التعريف: الإعلان (النموذج الأولي) يخبر المترجم بوجود الدالة؛ التعريف يوفر جسمها. ضروري عند استدعاء دالة قبل تعريفها.","المعاملات تمرّر البيانات إلى دالة؛ الكلمة المفتاحية <code>return</code> ترسل نتيجة. استخدم <code>void</code> عندما لا يُعاد شيء.","النطاق: المتغيرات المُعلنة داخل دالة محلية — لا توجد خارجها. المتغيرات العامة تعيش طوال البرنامج لكن يجب استخدامها باعتدال."] },
+        { tag:"نص", name:"الإدخال/الإخراج الأساسي والسلاسل", intro:"النص أحد أكثر أنواع البيانات شيوعاً. توفر C++ فئة <code>string</code> للتعامل الآمن والسهل مع النصوص.", points:["<code>std::string</code> هو المرجع للنصوص. يدير الذاكرة تلقائياً، على عكس مصفوفات <code>char[]</code> بأسلوب C.","<code>cin</code> يتوقف عند المسافات — استخدم <code>getline(cin, s)</code> لقراءة سطر كامل بما فيه المسافات.","العمليات الأساسية: <code>s.length()</code>، <code>s1 + s2</code> (ربط)، <code>s1 == s2</code> (مقارنة)، <code>s.substr(pos, len)</code> للتقطيع."] },
+      ],
+      s2: [
+        { tag:"ذاكرة", name:"المصفوفات والمتجهات", intro:"عندما تحتاج لتخزين قيم كثيرة من نفس النوع، المصفوفات والمتجهات هي أدواتك الأساسية. المتجهات هي الخيار الحديث والأكثر أماناً.", points:["المصفوفات الثابتة: <code>int arr[5]</code> — حجم ثابت، مخصصة على المكدس، سريعة. يجب أن يُعرف الحجم وقت الترجمة.","المصفوفات الديناميكية مع <code>new</code>/<code>delete</code>: تُخصص على الكومة وقت التشغيل، لكن يجب تحرير الذاكرة يدوياً لتجنب التسريبات.","<code>std::vector&lt;int&gt;</code> مصفوفة قابلة للتغيير تدير ذاكرتها بنفسها. استخدم <code>.push_back()</code>، <code>.size()</code>، <code>.at(i)</code>. فضّل المتجهات على المصفوفات الخام في C++ الحديثة."] },
+        { tag:"مؤشر", name:"المؤشرات والمراجع", intro:"المؤشرات متغيرات تحمل عناوين ذاكرة. هي من أقوى — وأكثر إساءة في الاستخدام — ميزات C++. المراجع أسماء بديلة أكثر أماناً.", points:["المؤشر <code>int* p = &x;</code> يحمل عنوان <code>x</code>. ارفع الإشارة بـ <code>*p</code> للقراءة/الكتابة. حساب المؤشر يتحرك بحجم العنصر.","<code>nullptr</code> هي قيمة المؤشر الفارغ الآمنة. دائماً هيّئ المؤشرات لتجنب السلوك غير المعرّف.","المرجع <code>int& r = x;</code> هو اسم بديل — هو <code>x</code> نفسه، ليس نسخة. المراجع لا يمكن أن تكون فارغة ولا يمكن إعادة ربطها، مما يجعلها أكثر أماناً من المؤشرات."] },
+        { tag:"نوع", name:"الهياكل والتعدادات", intro:"الهياكل تجمع المتغيرات ذات الصلة في نوع واحد مسمى. التعدادات تعطي أسماء ذات معنى لمجموعات من الثوابت الصحيحة.", points:["<code>struct Student { string name; int age; float gpa; };</code> — احزم بيانات غير متجانسة معاً. الوصول للأعضاء بنقطة: <code>s.name</code>.","<code>enum Color { RED, GREEN, BLUE };</code> — يعيّن المترجم 0، 1، 2. التعدادات تجعل الكود موثّقاً ذاتياً مقارنةً بالأرقام السحرية.","فضّل <code>enum class</code> (تعداد ذو نطاق) في C++ الحديثة: <code>Color::RED</code> يتجنب تصادمات الأسماء وهو أكثر أماناً من حيث النوع."] },
+        { tag:"نص", name:"السلاسل ومصفوفات الأحرف", intro:"فهم كل من سلاسل نمط C والـ <code>std::string</code> الحديث مهم لقراءة الكود القديم والسياقات الحرجة في الأداء.", points:["نمط C: <code>char str[] = \"hello\"</code> — مصفوفة منتهية بصفر. دوال مثل <code>strlen()</code>، <code>strcpy()</code>، <code>strcmp()</code> تعمل عليها.","<code>std::string</code> المتقدم: <code>find()</code>، <code>replace()</code>، <code>erase()</code>، <code>to_string()</code>، <code>stoi()</code> لتحويل الأعداد الصحيحة.","الخلط: <code>string.c_str()</code> يعطي مؤشر C-string؛ <code>string(charPtr)</code> يحوّل للعكس. ضروري للتفاعل مع واجهات برمجة C."] },
+        { tag:"ملف", name:"إدخال/إخراج الملفات", intro:"قراءة وكتابة الملفات يتيح للبرنامج استمرارية البيانات بين التشغيلات. توفر C++ إدخال/إخراج الملفات القائم على التدفقات عبر <code>&lt;fstream&gt;</code>.", points:["<code>ifstream fin(\"data.txt\");</code> يفتح ملفاً للقراءة. استخدم <code>fin &gt;&gt; x</code> أو <code>getline(fin, line)</code> لقراءة البيانات.","<code>ofstream fout(\"out.txt\");</code> يفتح ملفاً للكتابة. <code>fout &lt;&lt; data;</code> يعمل مثل <code>cout</code> تماماً.","<code>fstream</code> يتعامل مع كليهما. دائماً تحقق من <code>if (file.is_open())</code> وأغلق بـ <code>file.close()</code> — أو استخدم RAII."] },
+        { tag:"stl", name:"أساسيات STL", intro:"مكتبة القوالب القياسية هي مجموعة أدوات C++ المدمجة للحاويات والخوارزميات. إتقان STL يجعلك أكثر إنتاجية بشكل لافت.", points:["الحاويات: <code>vector</code> (مصفوفة ديناميكية)، <code>list</code> (مرتبطة مزدوجة)، <code>map</code> (مفتاح→قيمة مرتب)، <code>set</code> (قيم فريدة مرتبة).","المكررات: مؤشرات لعناصر الحاوية. <code>for(auto it = v.begin(); it != v.end(); ++it)</code> أو الحلقة النطاقية الأوضح: <code>for(auto& x : v)</code>.","الخوارزميات من <code>&lt;algorithm&gt;</code>: <code>sort(v.begin(), v.end())</code>، <code>find()</code>، <code>count()</code>، <code>reverse()</code>. تعمل على أي حاوية عبر المكررات."] },
+      ],
+      s3: [
+        { tag:"كائن", name:"الفئات والكائنات", intro:"الفئة هي مخطط؛ الكائن هو نسخة. الفئات تُغلّف البيانات والدوال التي تعمل عليها، مشكّلةً العمود الفقري للبرمجة كائنية التوجه.", points:["محددات الوصول: <code>public</code> (للجميع)، <code>private</code> (للفئة فقط)، <code>protected</code> (الفئة + الفئات الفرعية). استخدم private للبيانات وpublic للواجهة.","المُنشئات تعمل عند إنشاء كائن؛ المُدمّرات عند تدميره. استخدم المُنشئات للتهيئة: <code>MyClass(int x) : value(x) {}</code>","دوال الأعضاء تعمل على بيانات الكائن. الدوال العضوية <code>const</code> تَعِد بعدم تعديل الكائن — ضع علامة على الـ getters كـ <code>const</code>."] },
+        { tag:"كائن", name:"الوراثة", intro:"الوراثة تتيح لفئة إعادة استخدام وتوسيع سلوك فئة أخرى. تُنمذج علاقات 'هو-من-نوع' وتقلل تكرار الكود.", points:["<code>class Dog : public Animal {}</code> — Dog يرث جميع أعضاء Animal العامة/المحمية. الوراثة <code>public</code> تحافظ على مستويات الوصول.","تجاوز دوال الفئة الأساسية في الفئات المشتقة. استدع دوال الوالد صراحةً: <code>Animal::speak()</code> من داخل <code>Dog::speak()</code>.","تعددية الأشكال: مؤشر/مرجع أساسي يمكنه الإشارة لكائنات مشتقة. مدمجاً مع الدوال الافتراضية، الدالة الصحيحة تعمل وقت التشغيل."] },
+        { tag:"كائن", name:"تعددية الأشكال والدوال الافتراضية", intro:"تعددية الأشكال تتيح كتابة كود يعمل على نوع أساسي لكنه يتصرف بشكل صحيح لأي نوع مشتق — مفتاح التصميمات القابلة للتوسع.", points:["وقت الترجمة: تحميل زائد على الدوال والقوالب — يحلها المترجم قبل التشغيل.","وقت التشغيل: أعلن <code>virtual void speak()</code> في الفئة الأساسية. تبني C++ جدول vtable لاستدعاء النسخة المشتقة الصحيحة عبر مؤشر أساسي.","الافتراضي النقي: <code>virtual void draw() = 0;</code> يجعل الفئة مجردة — لا يمكن إنشاء نسخ منها، فقط توريثها. يُجبر جميع الفئات المشتقة على تطبيق <code>draw()</code>."] },
+        { tag:"عامل", name:"تحميل زائد على المشغّلات", intro:"C++ تتيح إعادة تعريف المشغّلات (<code>+</code>، <code>==</code>، <code>&lt;&lt;</code>، إلخ) لأنواعك المخصصة، مما يجعلها تعمل بشكل طبيعي مثل الأنواع المدمجة.", points:["تعريف كعضو: <code>Vector operator+(const Vector& b) const { return {x+b.x, y+b.y}; }</code>. الآن <code>v1 + v2</code> تعمل مباشرةً.","تعريف <code>operator&lt;&lt;</code> كدالة <code>friend</code> لتفعيل <code>cout &lt;&lt; myObj;</code> — مشغّلات التدفق يجب أن تكون خارج الفئة.","لا تُحمّل زائداً لمجرد الإمكانية. فقط عندما يكون المعنى واضحاً ومتسقاً مع الدلالة الطبيعية للمشغّل."] },
+        { tag:"ذاكرة", name:"إدارة الذاكرة المتقدمة", intro:"الإدارة اليدوية للذاكرة مع <code>new</code>/<code>delete</code> الخام عرضة للأخطاء. المؤشرات الذكية تُؤتمت ذلك باستخدام RAII — مبدأ أساسي في C++.", points:["<code>unique_ptr&lt;T&gt;</code>: مالك وحيد، يُحذف تلقائياً عند خروجه من النطاق. استخدم <code>make_unique&lt;T&gt;()</code>. لا يمكن نسخه، فقط نقله.","<code>shared_ptr&lt;T&gt;</code>: عدّاد مراجع — يُحذف عند خروج آخر مالك من النطاق. <code>weak_ptr</code> يكسر المراجع الدائرية.","RAII: الموارد (الذاكرة، الملفات، الأقفال) مرتبطة بعمر الكائن. عند تدمير الكائن، يُطلق المُدمّر المورد. هذا يلغي معظم التسريبات."] },
+        { tag:"قالب", name:"القوالب", intro:"القوالب تتيح كتابة كود مستقل عن النوع. اكتب دالة أو فئة مرة واحدة ويُولّد المترجم نسخاً لأي أنواع تستخدمها.", points:["قالب دالة: <code>template&lt;typename T&gt; T max(T a, T b) { return a &gt; b ? a : b; }</code> — يعمل لـ <code>int</code>، <code>double</code>، أي نوع قابل للمقارنة.","قالب فئة: <code>template&lt;typename T&gt; class Stack { vector&lt;T&gt; data; ... };</code> — مكدس عام بالكامل. STL نفسها مبنية هكذا.","تخصيص القوالب: وفّر تطبيقاً مخصصاً لنوع معين عندما لا يلائم العام (مثل <code>bool</code> لضغط البتات الموفّر للمساحة)."] },
+      ],
+      s4: [
+        { tag:"c++17", name:"C++ الحديثة (C++11–20)", intro:"أضافت C++11 ومابعدها ميزات تقلل الكود المتكرر وتحسّن الأمان بشكل كبير. هذه الآن ممارسة قياسية في كود C++ الاحترافي.", points:["<code>auto</code> يستنتج النوع تلقائياً: <code>auto it = map.begin();</code>. <code>decltype(x)</code> يعطيك نوع تعبير.","دوال Lambda: دوال مجهولة مضمّنة. <code>[التقاط](المعاملات){ الجسم }</code>. مثال: <code>sort(v.begin(), v.end(), [](int a, int b){ return a &gt; b; });</code>","<code>constexpr</code> يُجبر التقييم وقت الترجمة. <code>static_assert</code> يتحقق من الشروط وقت الترجمة. كلاهما يساعد على اكتشاف الأخطاء مبكراً."] },
+        { tag:"c++11", name:"دلالات النقل ومراجع Rvalue", intro:"دلالات النقل تلغي النسخ غير الضرورية بنقل ملكية الموارد بدلاً من تكريرها — مكسب أداء كبير.", points:["Lvalue: له اسم/عنوان (متغير). Rvalue: مؤقت بلا عنوان دائم (قيمة حرفية، نتيجة تعبير). مراجع Rvalue (<code>&&</code>) تربط بالـ rvalues.","<code>std::move(x)</code> يحوّل <code>x</code> لـ rvalue، مما يتيح لمُنشئ النقل سرقة موارده بدلاً من نسخها.","التمرير المثالي: <code>template&lt;typename T&gt; void wrap(T&& arg) { func(std::forward&lt;T&gt;(arg)); }</code> — يحافظ على طبيعة lvalue/rvalue عند تمرير المعاملات."] },
+        { tag:"stl", name:"STL المتقدمة", intro:"ما وراء الأساسيات، توفر STL حاويات قائمة على التجزئة للبحث O(1) ومكتبة خوارزميات غنية.", points:["<code>unordered_map</code>/<code>unordered_set</code>: قائمة على التجزئة، بحث O(1) متوسط مقارنةً بـ O(log n) لـ <code>map</code>/<code>set</code>. استخدم عندما لا يهم الترتيب.","<code>priority_queue&lt;int&gt;</code>: كومة-max افتراضياً. مفيدة للجدولة، خوارزمية Dijkstra، أو أي سيناريو 'معالجة الأكبر دائماً'.","خوارزميات STL: <code>transform</code>، <code>accumulate</code>، <code>any_of</code>/<code>all_of</code>/<code>none_of</code>. اجمع مع lambdas للحصول على تعبيرات موجزة."] },
+        { tag:"خيط", name:"التزامن وتعدد الخيوط", intro:"نفّذ المهام بالتوازي لاستغلال المعالجات متعددة النوى. قدّمت C++11 نموذج خيوط محمولاً في المكتبة القياسية.", points:["<code>std::thread t(func, args...);</code> يطلق خيطاً جديداً. استدع <code>t.join()</code> للانتظار حتى ينتهي، أو <code>t.detach()</code> للسماح له بالعمل باستقلالية.","<code>std::mutex</code> و <code>lock_guard&lt;mutex&gt;</code> يحميان البيانات المشتركة من حالات السباق. لا تصل أبداً لحالة قابلة للتغيير مشتركة من خيوط متعددة بدون مزامنة.","<code>std::async</code> ينفّذ دالة بشكل غير متزامن ويُعيد <code>future&lt;T&gt;</code>. استدع <code>future.get()</code> لاسترداد النتيجة."] },
+        { tag:"نمط", name:"أنماط التصميم في C++", intro:"أنماط التصميم حلول مُجرَّبة لمشاكل التصميم المتكررة. توفر مفردات مشتركة وتمنع إعادة اختراع العجلة.", points:["Singleton: يضمن وجود نسخة واحدة فقط. استخدم وصول نسخة ثابتة. انتبه لأمان الخيوط — استخدم <code>call_once</code> أو محلياً ثابتاً.","Observer: الكائنات تشترك في أحداث موضوع. عند تغيير الموضوع، يُخطر جميع المراقبين. أساس أنظمة الأحداث ومعماريات MVC.","Factory: ينشئ الكائنات دون كشف منطق الإنشاء. Strategy: تبادل الخوارزميات وقت التشغيل بتغليف كل منها خلف واجهة مشتركة."] },
+        { tag:"تصحيح", name:"التصحيح والتنميط", intro:"كتابة الكود نصف العمل — إيجاد وإصلاح الأخطاء ونقاط الضعف في الأداء هو النصف الآخر. هذه الأدوات أساسية للعمل الاحترافي.", points:["GDB (مصحح GNU): ضع نقاط توقف، تصفّح الكود، افحص المتغيرات. أوامر رئيسية: <code>break</code>، <code>run</code>، <code>next</code>، <code>print</code>، <code>backtrace</code>.","Valgrind (Linux): يكشف تسريبات الذاكرة، القراءات/الكتابات غير الصالحة. شغّله بـ <code>valgrind --leak-check=full ./myprogram</code>.","التنميط مع <code>gprof</code> أو <code>perf</code>: اعثر على نقاط الحرارة — أي الدوال تستهلك أكثر الوقت. التحسين بدون تنميط تخمين."] },
+      ],
+      s5: [
+        { tag:"خوارزمية", name:"تحسين الخوارزميات والتعقيد", intro:"في هذا المستوى، معرفة Big-O لا تكفي — تحتاج لاستخراج العوامل الثابتة، استغلال سلوك الذاكرة المؤقتة، واختيار الخوارزمية الصحيحة.", points:["تحليل Big-O: O(1) > O(log n) > O(n) > O(n log n) > O(n²). اعرف تعقيد عمليات STL للتفكير في قابلية التوسع.","كفاءة الذاكرة المؤقتة أهم من عدد التعليمات على المعالجات الحديثة. الهياكل القائمة على المصفوفات تتفوق على هياكل تتبع المؤشرات بسبب موضعية الذاكرة المؤقتة.","حيل تنافسية: الحساب المسبق، مؤشران، نافذة منزلقة، مكدسات/طوابير رتيبة. هذه تحوّل حلول O(n²) ساذجة إلى O(n) أو O(n log n)."] },
+        { tag:"بت", name:"التلاعب بالبتات", intro:"العمل مباشرةً مع البتات يفتح عمليات فائقة السرعة وهو أساسي للأنظمة منخفضة المستوى والضغط والرسوميات والبرمجة التنافسية.", points:["المشغّلات الأساسية: <code>&</code> (AND)، <code>|</code> (OR)، <code>^</code> (XOR)، <code>~</code> (NOT)، <code>&lt;&lt;</code>/<code>&gt;&gt;</code> (إزاحة). مثال: <code>x &amp; (x-1)</code> يمسح أدنى بت محدد.","حيل شائعة: تحقق من تحديد البت i (<code>x &gt;&gt; i &amp; 1</code>)، حدد البت i (<code>x | (1 &lt;&lt; i)</code>)، بدّل (<code>x ^ (1 &lt;&lt; i)</code>).","DP بقنعة البتات: مثّل المجموعات الفرعية كأعداد صحيحة. مع 20 عنصراً، عدّد جميع 2²⁰ مجموعة فرعية بحلقة بسيطة."] },
+        { tag:"هيكل", name:"هياكل البيانات المتقدمة", intro:"ما وراء أساسيات STL، هذه الهياكل تحل مشاكل لا يمكن للمتجهات والـ maps التعامل معها بكفاءة.", points:["أشجار المقاطع / أشجار Fenwick (BIT): استعلامات نطاق وتحديثات نقطية في O(log n). لا تقدّر بثمن للمجموع/الأدنى/الأقصى على الفترات.","Tries: شجرة بادئة لبحث السلاسل O(L). تُستخدم في الإكمال التلقائي، توجيه IP، التدقيق الإملائي.","Disjoint Set Union (DSU/Union-Find): تتبع المكوّنات المتصلة في O(α(n)) ≈ O(1) مُطفّأ. محوري في خوارزمية Kruskal لشجرة البسط الدنيا."] },
+        { tag:"شبكة", name:"برمجة الشبكات", intro:"C++ مستخدمة بكثافة في تطبيقات الشبكات عالية الأداء. فهم برمجة الـ socket أساسي للخوادم والألعاب والأنظمة الموزعة.", points:["مقابس BSD: <code>socket()</code>، <code>bind()</code>، <code>listen()</code>، <code>accept()</code>، <code>connect()</code>، <code>send()</code>/<code>recv()</code>. الأساس الذي تبنى عليه كل شيء آخر.","TCP مقابل UDP: TCP موثوق ومرتب؛ UDP سريع بلا اتصال. الألعاب غالباً تستخدم UDP؛ نقل الملفات يستخدم TCP.","المستوى الأعلى: استخدم <code>Boost.Asio</code> أو <code>libuv</code> للإدخال/الإخراج غير المتزامن. <code>libcurl</code> للـ HTTP. المقابس الخام نادراً ما تُستخدم مباشرةً في الإنتاج."] },
+        { tag:"ألعاب", name:"أساسيات تطوير الألعاب", intro:"C++ هي اللغة السائدة في تطوير الألعاب. SFML وOpenGL تمنحك الأدوات لإنشاء ألعاب ثنائية وثلاثية الأبعاد من الصفر.", points:["SFML: مكتبة الوسائط المتعددة البسيطة والسريعة. تتعامل مع النوافذ، الرسوميات ثنائية الأبعاد، الصوت، والإدخال. رائعة للألعاب ثنائية الأبعاد والمحاكاة.","OpenGL: واجهة برمجة GPU منخفضة المستوى. رؤوس → شيدرات → تصوير نقطي → شظايا → شاشة. OpenGL الحديث (3.3+) يستخدم شيدرات قابلة للبرمجة مكتوبة بـ GLSL.","حلقة اللعبة: <code>while (running) { processInput(); update(dt); render(); }</code>. زمن الدلتا (<code>dt</code>) يجعل الفيزياء مستقلة عن معدل الإطارات."] },
+        { tag:"مضمّن", name:"الأنظمة المضمّنة والزمن الحقيقي", intro:"C++ مستخدمة بكثافة في الأنظمة المضمّنة — من المتحكمات الدقيقة إلى الأتمتة الصناعية. الزمن الحقيقي يعني الوفاء بالمواعيد الزمنية الصارمة.", points:["القيود: لا تخصيص على الكومة، لا استثناءات، لا STL في bare-metal. استخدم التخصيص الثابت، مخازن ذات حجم ثابت، وهياكل بيانات بسيطة.","نظام تشغيل الزمن الحقيقي (RTOS): FreeRTOS، Zephyr. المهام تحصل على شرائح وقت CPU؛ الجدولة بالأولوية تضمن أن المهام الحرجة تفي بالمواعيد.","التفاعل مع الأجهزة: إدخال/إخراج مُعيَّن للذاكرة، الكلمة المفتاحية <code>volatile</code> لمنع المترجم من تحسين قراءات سجلات الأجهزة."] },
+      ],
     }
-  ],
-  s4: [
-    {
-      tag: "c++17",
-      name: "Modern C++ (C++11–20)",
-      intro: "C++11 and later added features that dramatically reduce boilerplate and improve safety. These are now standard practice in professional C++ code.",
-      points: [
-        "<code>auto</code> deduces the type automatically: <code>auto it = map.begin();</code>. <code>decltype(x)</code> gives you the type of an expression.",
-        "Lambda functions: inline anonymous functions. <code>[capture](params){ body }</code>. E.g. <code>sort(v.begin(), v.end(), [](int a, int b){ return a &gt; b; });</code>",
-        "<code>constexpr</code> forces evaluation at compile time. <code>static_assert</code> validates conditions at compile time. Both help catch bugs earlier."
-      ]
-    },
-    {
-      tag: "c++11",
-      name: "Move Semantics & Rvalue References",
-      intro: "Move semantics eliminate unnecessary copies by transferring ownership of resources instead of duplicating them — a major performance win.",
-      points: [
-        "Lvalue: has a name/address (a variable). Rvalue: a temporary with no persistent address (a literal, expression result). Rvalue references (<code>&&</code>) bind to rvalues.",
-        "<code>std::move(x)</code> casts <code>x</code> to an rvalue, enabling a move constructor/assignment to steal its resources instead of copying them.",
-        "Perfect forwarding: <code>template&lt;typename T&gt; void wrap(T&& arg) { func(std::forward&lt;T&gt;(arg)); }</code> — preserves lvalue/rvalue-ness when passing arguments to another function."
-      ]
-    },
-    {
-      tag: "stl",
-      name: "Advanced STL",
-      intro: "Beyond the basics, the STL offers hash-based containers for O(1) lookups and a rich algorithm library that covers most common data-processing tasks.",
-      points: [
-        "<code>unordered_map</code>/<code>unordered_set</code>: hash-based, O(1) average lookup vs O(log n) for <code>map</code>/<code>set</code>. Use when order doesn't matter.",
-        "<code>priority_queue&lt;int&gt;</code>: max-heap by default. Use for scheduling, Dijkstra's algorithm, or any 'always process the largest' scenario.",
-        "STL algorithms: <code>transform</code> (map over range), <code>accumulate</code> (fold/reduce), <code>any_of</code>/<code>all_of</code>/<code>none_of</code> for predicate checks. Combine with lambdas for expressive one-liners."
-      ]
-    },
-    {
-      tag: "thr",
-      name: "Concurrency & Multithreading",
-      intro: "Run tasks in parallel to exploit multi-core CPUs. C++11 introduced a portable threading model in the standard library.",
-      points: [
-        "<code>std::thread t(func, args...);</code> launches a new thread. Call <code>t.join()</code> to wait for it to finish, or <code>t.detach()</code> to let it run independently.",
-        "<code>std::mutex</code> and <code>lock_guard&lt;mutex&gt;</code> protect shared data from race conditions. Never access shared mutable state from multiple threads without synchronization.",
-        "<code>std::async</code> runs a function asynchronously and returns a <code>future&lt;T&gt;</code>. Call <code>future.get()</code> to retrieve the result (blocks until done)."
-      ]
-    },
-    {
-      tag: "pat",
-      name: "Design Patterns in C++",
-      intro: "Design patterns are proven solutions to recurring design problems. They give a shared vocabulary and prevent reinventing the wheel.",
-      points: [
-        "Singleton: ensures only one instance exists. Use a static instance accessor. Be careful with thread safety — use <code>call_once</code> or a static local.",
-        "Observer: objects subscribe to events from a subject. When the subject changes, it notifies all observers. Foundation of event systems and MVC architectures.",
-        "Factory: creates objects without exposing instantiation logic. Strategy: swap algorithms at runtime by encapsulating each behind a common interface — dependency injection in disguise."
-      ]
-    },
-    {
-      tag: "dbg",
-      name: "Debugging & Profiling",
-      intro: "Writing code is half the job — finding and fixing bugs and performance bottlenecks is the other half. These tools are essential for professional work.",
-      points: [
-        "GDB (GNU Debugger): set breakpoints, step through code, inspect variables. Key commands: <code>break</code>, <code>run</code>, <code>next</code>, <code>print</code>, <code>backtrace</code>.",
-        "Valgrind (Linux): detects memory leaks, invalid reads/writes, and uninitialized values. Run as <code>valgrind --leak-check=full ./myprogram</code>.",
-        "Profiling with <code>gprof</code> or <code>perf</code>: find hotspots — which functions consume the most time. Optimization without profiling is guesswork."
-      ]
-    }
-  ],
-  s5: [
-    {
-      tag: "algo",
-      name: "Algorithm Optimization & Complexity",
-      intro: "At this level, knowing Big-O is not enough — you need to squeeze out constant factors, exploit cache behaviour, and pick the right algorithm for the hardware.",
-      points: [
-        "Big-O analysis: O(1) > O(log n) > O(n) > O(n log n) > O(n²). Know the complexity of STL operations to reason about your program's scalability.",
-        "Cache efficiency matters more than instruction count on modern CPUs. Array-based structures outperform pointer-chasing structures (like linked lists) due to cache locality.",
-        "Competitive tricks: precomputation, two-pointer, sliding window, monotonic stacks/queues. These turn naive O(n²) solutions into O(n) or O(n log n)."
-      ]
-    },
-    {
-      tag: "bit",
-      name: "Bit Manipulation",
-      intro: "Working directly with bits unlocks ultra-fast operations and is essential for low-level systems, compression, graphics, and competitive programming.",
-      points: [
-        "Core operators: <code>&</code> (AND), <code>|</code> (OR), <code>^</code> (XOR), <code>~</code> (NOT), <code>&lt;&lt;</code>/<code>&gt;&gt;</code> (shift). E.g. <code>x &amp; (x-1)</code> clears the lowest set bit.",
-        "Common tricks: check if bit i is set (<code>x &gt;&gt; i &amp; 1</code>), set bit i (<code>x | (1 &lt;&lt; i)</code>), toggle (<code>x ^ (1 &lt;&lt; i)</code>).",
-        "Bitmask DP: represent subsets as integers. With 20 items, enumerate all 2²⁰ subsets with a simple loop. Used in TSP, assignment problems, and more."
-      ]
-    },
-    {
-      tag: "ds",
-      name: "Advanced Data Structures",
-      intro: "Beyond STL basics, these structures solve problems that vectors and maps can't handle efficiently. Essential for competitive programming and systems work.",
-      points: [
-        "Segment trees / Fenwick (BIT) trees: range queries and point updates in O(log n). Invaluable for sum/min/max over intervals.",
-        "Tries: prefix-tree for O(L) string lookups where L = string length. Used in autocomplete, IP routing, spell checking.",
-        "Disjoint Set Union (DSU/Union-Find): track connected components in O(α(n)) ≈ O(1) amortized. Core to Kruskal's MST algorithm."
-      ]
-    },
-    {
-      tag: "net",
-      name: "Network Programming",
-      intro: "C++ is heavily used in high-performance network applications. Understanding socket programming is essential for servers, games, and distributed systems.",
-      points: [
-        "BSD sockets: <code>socket()</code>, <code>bind()</code>, <code>listen()</code>, <code>accept()</code>, <code>connect()</code>, <code>send()</code>/<code>recv()</code>. The foundation everything else builds on.",
-        "TCP vs UDP: TCP is reliable and ordered; UDP is fast and connectionless. Games often use UDP; file transfers use TCP.",
-        "Higher-level: use <code>Boost.Asio</code> or <code>libuv</code> for async I/O. <code>libcurl</code> for HTTP. Raw sockets are rarely used directly in production."
-      ]
-    },
-    {
-      tag: "gfx",
-      name: "Game Development Basics",
-      intro: "C++ is the dominant language in game development. SFML and OpenGL give you the tools to create 2D and 3D games from the ground up.",
-      points: [
-        "SFML: Simple & Fast Multimedia Library. Handles windows, 2D graphics, audio, and input. Great for 2D games, simulations, and visualizations.",
-        "OpenGL: low-level GPU API. Vertices → shaders → rasterization → fragments → screen. Modern OpenGL (3.3+) uses programmable shaders written in GLSL.",
-        "Game loop: <code>while (running) { processInput(); update(dt); render(); }</code>. Delta time (<code>dt</code>) makes physics frame-rate independent."
-      ]
-    },
-    {
-      tag: "emb",
-      name: "Embedded & Real-Time Systems",
-      intro: "C++ is widely used in embedded systems — from microcontrollers to industrial automation. Real-time means meeting hard timing deadlines.",
-      points: [
-        "Constraints: no heap allocation, no exceptions, no STL in bare-metal. Use static allocation, fixed-size buffers, and simple data structures.",
-        "Real-time OS (RTOS): FreeRTOS, Zephyr. Tasks get CPU time slices; priority scheduling ensures critical tasks meet deadlines.",
-        "Hardware interaction: memory-mapped I/O, <code>volatile</code> keyword to prevent compiler from optimizing away hardware register reads."
-      ]
-    }
-  ]
+  }
 };
 
-const stageNames = {
-  s1: "Stage 1 · Foundations",
-  s2: "Stage 2 · Core Concepts",
-  s3: "Stage 3 · OOP",
-  s4: "Stage 4 · Modern C++",
-  s5: "Stage 5 · Systems"
-};
+// ─────────────────────────── APP LOGIC ───────────────────────────
 
-const stageColors = {
-  s1: "#38bdf8", s2: "#4ade80", s3: "#fb923c", s4: "#facc15", s5: "#e879f9"
-};
+let currentLang = 'en';
+let openTopic = null; // {sid, idx}
 
-function buildTopics() {
-  for (const [sid, topics] of Object.entries(TOPICS)) {
-    const container = document.getElementById(sid + "-topics");
-    topics.forEach((t, i) => {
-      const btn = document.createElement("button");
-      btn.className = "topic-btn";
+const stageColors = { s1:"#38bdf8", s2:"#4ade80", s3:"#fb923c", s4:"#facc15", s5:"#e879f9" };
+
+function setLang(lang) {
+  currentLang = lang;
+  const isRTL = lang === 'ar';
+  document.documentElement.lang = lang;
+  document.body.dir = isRTL ? 'rtl' : 'ltr';
+
+  // Update active button
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.toLowerCase() === lang);
+  });
+
+  renderAll();
+
+  // If modal is open, re-render it
+  if (openTopic) openModal(openTopic.sid, openTopic.idx);
+}
+
+function renderAll() {
+  const t = I18N[currentLang];
+  document.getElementById('pretitle').textContent = t.pretitle;
+  document.getElementById('tagline').textContent = t.tagline;
+
+  ['s1','s2','s3','s4','s5'].forEach((sid, i) => {
+    const s = t.stages[i];
+    document.getElementById(`${sid}-num`).textContent = s.num;
+    document.getElementById(`${sid}-title`).textContent = s.title;
+    document.getElementById(`${sid}-goal`).textContent = s.goal;
+
+    const container = document.getElementById(`${sid}-topics`);
+    container.innerHTML = '';
+    t.topics[sid].forEach((topic, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'topic-btn';
       btn.innerHTML = `
         <div class="topic-btn-inner">
-          <span class="topic-tag">${t.tag}</span>
-          <div class="topic-name">${t.name} <span class="topic-arrow">▸</span></div>
+          <span class="topic-tag">${topic.tag}</span>
+          <div class="topic-name">${topic.name} <span class="topic-arrow">▸</span></div>
         </div>`;
-      btn.addEventListener("click", () => openModal(sid, i));
+      btn.addEventListener('click', () => openModal(sid, idx));
       container.appendChild(btn);
     });
-  }
+  });
 }
 
 function openModal(sid, idx) {
-  const t = TOPICS[sid][idx];
-  document.getElementById("modal-stage").textContent = stageNames[sid];
-  document.getElementById("modal-stage").style.color = stageColors[sid];
-  document.getElementById("modal-title").textContent = t.name;
+  openTopic = { sid, idx };
+  const t = I18N[currentLang];
+  const topic = t.topics[sid][idx];
+  const stageIdx = ['s1','s2','s3','s4','s5'].indexOf(sid);
 
-  document.getElementById("modal-intro").innerHTML = t.intro;
-  const ul = document.getElementById("modal-points");
-  ul.innerHTML = "";
-  t.points.forEach(p => {
-    const li = document.createElement("li");
+  document.getElementById('modal-stage').textContent = t.stageNames[stageIdx];
+  document.getElementById('modal-stage').style.color = stageColors[sid];
+  document.getElementById('modal-title').textContent = topic.name;
+  document.getElementById('modal-intro').innerHTML = topic.intro;
+
+  const ul = document.getElementById('modal-points');
+  ul.innerHTML = '';
+  topic.points.forEach(p => {
+    const li = document.createElement('li');
     li.innerHTML = `<span class="bullet" style="color:${stageColors[sid]}">▸</span><span>${p}</span>`;
     ul.appendChild(li);
   });
 
-  document.getElementById("overlay").classList.add("open");
-  document.body.style.overflow = "hidden";
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
 function closeModal(e) {
-  if (e && e.target !== document.getElementById("overlay") && !e.target.closest(".modal-close")) return;
-  document.getElementById("overlay").classList.remove("open");
-  document.body.style.overflow = "";
+  if (e && e.target !== document.getElementById('overlay') && !e.target.closest('.modal-close')) return;
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  openTopic = null;
 }
 
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape") {
-    document.getElementById("overlay").classList.remove("open");
-    document.body.style.overflow = "";
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('overlay').classList.remove('open');
+    document.body.style.overflow = '';
+    openTopic = null;
   }
 });
 
-buildTopics();
+// Init
+renderAll();
 </script>
 </body>
 </html>
